@@ -8,7 +8,7 @@
 */
 @layer base {
   input {
-    @apply border border-gray-300 rounded-sm;
+    @apply rounded-sm border border-gray-300;
   }
 
   input[type="submit"] {
@@ -16,15 +16,15 @@
   }
 
   button {
-    @apply border border-gray-300 px-2 rounded-sm bg-[#EFEFEF];
+    @apply rounded-sm border border-gray-300 bg-[#EFEFEF] px-2;
   }
 
   h1 {
-    @apply text-2xl font-bold my-6;
+    @apply my-6 text-2xl font-bold;
   }
 
   ul {
-    @apply list-disc my-4;
+    @apply my-4 list-disc;
   }
 
   a {
@@ -40,12 +40,12 @@
   }
 
   table {
-    @apply border border-black border-collapse;
+    @apply border-collapse border border-black;
   }
 
   table th,
   table td {
-    @apply m-0 p-2 border-b border-r border-black;
+    @apply m-0 border-b border-r border-black p-2;
   }
 
   table tr:last-child td {
@@ -68,11 +68,11 @@
   }
 
   .layout .content {
-    @apply flex flex-col flex-grow;
+    @apply flex flex-grow flex-col;
   }
 
   .breadcrumb {
-    @apply flex gap-6 p-2 px-4 border-b border-gray-300;
+    @apply flex gap-6 border-b border-gray-300 p-2 px-4;
     list-style-type: "/ ";
   }
 
@@ -81,7 +81,7 @@
   }
 
   .menu {
-    @apply flex-shrink-0 p-2 pr-4 border-r border-gray-300;
+    @apply flex-shrink-0 border-r border-gray-300 p-2 pr-4;
   }
 
   .menu a {
@@ -94,7 +94,7 @@
 
   @media (max-width: 751px) {
     .menu {
-      @apply border-r-0 border-b border-gray-300;
+      @apply border-b border-r-0 border-gray-300;
     }
   }
 
@@ -108,9 +108,9 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
+    --primary: 24, 78%, 48%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
+    --secondary: 231, 11%, 12%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
@@ -135,9 +135,9 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
+    --primary: 24, 78%, 48%;
     --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 231, 11%, 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
@@ -160,6 +160,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply h-screen min-w-80 bg-background text-foreground;
   }
 }

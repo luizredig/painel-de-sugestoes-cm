@@ -2,12 +2,6 @@ import { NavigateToResource } from "@refinedev/react-router-v6";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layout } from "./components/layout";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
 
 function App() {
   return (
@@ -26,13 +20,13 @@ function App() {
           />
 
           <Route path="/painel-de-sugestoes">
-            <Route index element={<BlogPostList />} />
+            <Route index element={<></>} />
 
-            <Route path="create" element={<BlogPostCreate />} />
+            <Route path="create" element={<></>} />
 
-            <Route path="edit/:id" element={<BlogPostEdit />} />
+            <Route path="edit/:id" element={<></>} />
 
-            <Route path="show/:id" element={<BlogPostShow />} />
+            <Route path="show/:id" element={<></>} />
           </Route>
 
           <Route path="*" element={<></>} />
