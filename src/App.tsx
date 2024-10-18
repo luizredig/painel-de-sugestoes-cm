@@ -7,9 +7,10 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import { Layout } from "./components/layout/Layout";
-import PainelDeSugestoes from "./pages/painel-de-sugestoes/PainelDeSugestoes";
+import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel";
 import CreateSuggestion from "./pages/painel-de-sugestoes/create/CreateSuggestion";
 import ManageSuggestions from "./pages/painel-de-sugestoes/gerenciar/ManageSuggestions";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 function App() {
   return (
@@ -29,7 +30,9 @@ function App() {
               index
               element={
                 <>
-                  <PainelDeSugestoes />
+                  <TooltipProvider>
+                    <SuggestionPanel />
+                  </TooltipProvider>
                 </>
               }
             />
