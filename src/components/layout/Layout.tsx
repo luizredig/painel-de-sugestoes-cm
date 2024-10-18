@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react";
 import Sidebar from "../sidebar/Sidebar";
-import Topbar from "../topbar/Topbar";
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -9,11 +8,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <div className="flex h-screen flex-row">
           <Sidebar />
 
-          <div className="flex flex-1 flex-col">
-            <Topbar />
-
-            {children}
-          </div>
+          <div className="flex flex-1 flex-col">{children}</div>
         </div>
       </div>
     </div>
