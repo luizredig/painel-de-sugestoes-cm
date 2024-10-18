@@ -1,54 +1,65 @@
-import React from "react";
-import SidebarButton from "./SidebarButton";
+import { Button } from "../ui/button";
 import {
   Accordion,
-  AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  AccordionContent,
 } from "../ui/accordion";
+import { useNavigate } from "react-router-dom";
 
-interface TriggerProps {
-  icon: React.ReactNode;
+interface SidebarItemProps {
+  type: "button" | "accordion";
   title: string;
+  icon: React.ReactNode;
+  path?: string;
+  children?: React.ReactNode;
 }
 
-interface AccordionProps {
-  variant: "accordion";
-  trigger: TriggerProps;
-  content: React.ReactNode;
-}
+const SidebarItem = ({
+  type,
+  title,
+  icon,
+  path,
+  children,
+}: SidebarItemProps) => {
+  const navigate = useNavigate();
 
-interface ButtonProps {
-  variant: "button";
-  content: TriggerProps;
-  children: React.ReactNode;
-}
+  const handleNavigate = (path?: string) => {
+    if (path) {
+      navigate(path);
+    }
+  };
 
-type SidebarButtonProps = AccordionProps | ButtonProps;
-
-const SidebarItem = (props: SidebarButtonProps) => {
-  if (props.variant === "accordion") {
+  if (type === "button") {
     return (
-      <Accordion type="single" collapsible className="w-full p-0">
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="border-none bg-transparent">
-            <div className="flex gap-3">
-              {props.trigger.icon}
+      <Button
+        onClick={() => handleNavigate(path)}
+        className="flex w-full justify-start gap-3 rounded-none border-[0.5px] border-x-0 border-t-0 border-muted-foreground bg-secondary px-5 py-7"
+      >
+        {icon}
+        <span className="text-sm text-muted-foreground">{title}</span>
+      </Button>
+    );
+  }
 
-              <p className="text-muted-foreground">{props.trigger.title}</p>
+  if (type === "accordion") {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="item-1" className="border-muted-foreground">
+          <AccordionTrigger className="flex justify-between rounded-none border-none bg-secondary px-5 text-muted-foreground">
+            <div className="flex items-center justify-center gap-3 border-none">
+              {icon}
+
+              <span className="text-sm text-muted-foreground">{title}</span>
             </div>
           </AccordionTrigger>
 
-          <AccordionContent>
-            <SidebarButton>{props.content}</SidebarButton>
+          <AccordionContent className="flex flex-col border-none p-0">
+            {children}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
     );
-  }
-
-  if (props.variant === "button") {
-    return <SidebarButton>{props.children}</SidebarButton>;
   }
 
   return null;
