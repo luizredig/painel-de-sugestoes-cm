@@ -57,7 +57,10 @@ function App() {
             <Route path="show/:id" element={<></>} />
           </Route>
 
-          <Route path="*" element={<></>} />
+          <Route
+            path="*"
+            element={<Navigate to="/painel-de-sugestoes" replace />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
