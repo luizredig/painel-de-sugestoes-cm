@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Sidebar */}
-      <Card className="h-100 flex w-72 flex-col border-none p-0">
+      <Card className="h-100 flex min-w-72 flex-col border-none p-0">
         {/* Header */}
         <CardHeader className="flex h-12 flex-row items-center justify-between bg-primary p-0">
           <img src="/logo.svg" alt="Logo" className="ml-5 h-6 w-6" />

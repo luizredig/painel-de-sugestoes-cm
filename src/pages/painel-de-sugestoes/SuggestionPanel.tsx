@@ -10,7 +10,7 @@ const SuggestionPanel = () => {
     <Page
       title="Painel de Sugestões"
       children={
-        <div className="flex h-screen w-full flex-col gap-8 p-5">
+        <div className="flex h-screen w-full flex-col gap-8 overflow-x-hidden">
           {companies.map((company) => (
             <CompanySuggestionRow
               key={company.id}

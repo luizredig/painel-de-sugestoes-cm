@@ -13,18 +13,20 @@ const CompanySuggestionRow = ({
   suggestions,
 }: CompanySuggestionRowProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex w-fit flex-col gap-4">
+    <div className="flex flex-col gap-4 py-5">
+      <div className="flex w-fit flex-col gap-4 px-5">
         <div className="flex items-center gap-2">
           <BuildingIcon className="h-8 w-8 text-primary" />
+
           <span className="select-none text-3xl font-semibold">
             {company.name}
           </span>
         </div>
+
         <Separator />
       </div>
 
-      <div className="flex flex-1 gap-10">
+      <div className="flex flex-1 gap-10 overflow-x-scroll px-5">
         {suggestions.map((suggestion: Suggestion) => (
           <SuggestionCard key={suggestion.id} suggestion={suggestion} />
         ))}

@@ -8,10 +8,12 @@ export type PageProps = {
 const Page = ({ title, children }: PageProps) => {
   return (
     <>
-      <div className="flex flex-1 flex-col overflow-y-hidden">
+      <div className="flex w-full flex-col overflow-x-hidden overflow-y-hidden">
         <Topbar title={title} />
 
-        <div className="flex overflow-y-scroll">{children}</div>
+        <div className="flex overflow-scroll [&::-webkit-scrollbar]:hidden">
+          {children}
+        </div>
       </div>
     </>
   );
