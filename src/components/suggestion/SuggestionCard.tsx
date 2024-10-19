@@ -53,12 +53,18 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
             </Tooltip>
           </div>
 
-          <div className="flex w-1/4 justify-end">
-            <SuggestionStatusSelect />
+          <div className="flex w-1/4 flex-col">
+            <span className="text-[10px] font-bold text-muted-foreground">
+              Status:
+            </span>
+
+            <div className="flex">
+              <SuggestionStatusSelect />
+            </div>
           </div>
         </div>
 
-        <div className="flex w-full items-center gap-2">
+        <div className="flex w-full gap-2">
           <div className="flex w-full items-center justify-end gap-2">
             <div className="flex w-1/3 gap-1">
               <div className="flex items-center">
@@ -72,13 +78,20 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                       {suggestion.companyId}
                     </span>
                   </TooltipTrigger>
+
                   <TooltipContent>{suggestion.companyId}</TooltipContent>
                 </Tooltip>
               </div>
             </div>
 
-            <div className="flex w-1/4">
-              <AgentMultiSelect agents={agents} />
+            <div className="flex w-1/4 flex-col">
+              <span className="text-[10px] font-bold text-muted-foreground">
+                Responsáveis:
+              </span>
+
+              <div className="flex">
+                <AgentMultiSelect agents={agents} />
+              </div>
             </div>
           </div>
         </div>
