@@ -1,4 +1,4 @@
-import Page from "@/pages/template/Page";
+import Page from "@/pages/template/Page.tsx";
 
 const ManageSuggestions = () => {
   return (

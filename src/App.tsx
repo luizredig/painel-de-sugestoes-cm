@@ -1,3 +1,6 @@
+// src/App.tsx
+
+import React from "react";
 import {
   BrowserRouter,
   Outlet,
@@ -6,11 +9,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { Layout } from "./components/layout/Layout";
-import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel";
-import CreateSuggestion from "./pages/painel-de-sugestoes/create/CreateSuggestion";
-import ManageSuggestions from "./pages/painel-de-sugestoes/gerenciar/ManageSuggestions";
-import { TooltipProvider } from "./components/ui/tooltip";
+import { Layout } from "./components/layout/Layout.tsx";
+import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel.tsx";
+import CreateSuggestion from "./pages/painel-de-sugestoes/create/CreateSuggestion.tsx";
+import ManageSuggestions from "./pages/painel-de-sugestoes/gerenciar/ManageSuggestions.tsx";
+import { TooltipProvider } from "./components/ui/tooltip.tsx";
 
 function App() {
   return (
@@ -29,35 +32,19 @@ function App() {
             <Route
               index
               element={
-                <>
-                  <TooltipProvider>
-                    <SuggestionPanel />
-                  </TooltipProvider>
-                </>
+                <TooltipProvider>
+                  <SuggestionPanel />
+                </TooltipProvider>
               }
             />
 
-            <Route
-              path="gerenciar"
-              element={
-                <>
-                  <ManageSuggestions />
-                </>
-              }
-            />
+            <Route path="gerenciar" element={<ManageSuggestions />} />
 
-            <Route
-              path="create"
-              element={
-                <>
-                  <CreateSuggestion />
-                </>
-              }
-            />
+            <Route path="create" element={<CreateSuggestion />} />
 
-            <Route path="edit/:id" element={<></>} />
+            <Route path="edit/:id" element={<div>Editar Sugestão</div>} />
 
-            <Route path="show/:id" element={<></>} />
+            <Route path="show/:id" element={<div>Detalhes da Sugestão</div>} />
           </Route>
 
           <Route

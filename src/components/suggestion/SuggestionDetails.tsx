@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card.ts";
-import { Badge } from "@/components/ui/badge.ts";
+import { Card } from "@/components/ui/card.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma.ts";

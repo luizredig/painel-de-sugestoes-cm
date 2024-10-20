@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select.ts";
+} from "../ui/select.tsx";
 import { useState, useEffect } from "react";
 import { prisma } from "@/lib/prisma.ts";
 import { SuggestionStatus } from "@prisma/client";

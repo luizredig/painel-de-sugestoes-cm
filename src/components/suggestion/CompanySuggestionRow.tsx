@@ -1,7 +1,7 @@
 import React from "react";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator.tsx";
 import { BuildingIcon } from "lucide-react";
-import SuggestionCard from "./SuggestionCard";
+import SuggestionCard from "./SuggestionCard.tsx";
 import { Company, Suggestion } from "@prisma/client";
 
 type CompanySuggestionRowProps = {

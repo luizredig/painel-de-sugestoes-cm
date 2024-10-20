@@ -1,6 +1,6 @@
 import { AppWindowIcon, CogIcon, ListIcon } from "lucide-react";
-import { Card, CardContent, CardHeader } from "../ui/card";
-import SidebarItem from "./SidebarItem";
+import { Card, CardContent, CardHeader } from "../ui/card.tsx";
+import SidebarItem from "./SidebarItem.tsx";
 
 const Sidebar = () => {
   return (

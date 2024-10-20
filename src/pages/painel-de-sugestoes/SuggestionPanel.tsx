@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Page from "../template/Page.ts";
-import { prisma } from "@/lib/prisma.ts";
-import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow.ts";
-import { Company, Suggestion } from "@prisma/client";
+import Page from "../template/Page.tsx";
+import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow.tsx";
+import { Company, Suggestion } from "@/types/index.ts";
 
 const SuggestionPanel = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -10,34 +9,40 @@ const SuggestionPanel = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Busca as empresas e suas sugestões do banco de dados
-      const fetchedCompanies = await prisma.company.findMany();
-      const fetchedSuggestions = await prisma.suggestion.findMany();
+      try {
+        const [companiesResponse, suggestionsResponse] = await Promise.all([
+          fetch("http://localhost:3000/api/companies"),
+          fetch("http://localhost:3000/api/suggestions"),
+        ]);
 
-      setCompanies(fetchedCompanies);
-      setSuggestions(fetchedSuggestions);
+        const fetchedCompanies: Company[] = await companiesResponse.json();
+        const fetchedSuggestions: Suggestion[] =
+          await suggestionsResponse.json();
+
+        setCompanies(fetchedCompanies);
+        setSuggestions(fetchedSuggestions);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
     };
 
     fetchData();
   }, []);
 
   return (
-    <Page
-      title="Painel de Sugestões"
-      children={
-        <div className="flex h-screen w-full flex-col gap-8 overflow-x-hidden">
-          {companies.map((company) => (
-            <CompanySuggestionRow
-              key={company.id}
-              company={company}
-              suggestions={suggestions.filter(
-                (suggestion) => suggestion.companyId === company.id,
-              )}
-            />
-          ))}
-        </div>
-      }
-    />
+    <Page title="Painel de Sugestões">
+      <div className="flex h-screen w-full flex-col gap-8 overflow-x-hidden">
+        {companies.map((company) => (
+          <CompanySuggestionRow
+            key={company.id}
+            company={company}
+            suggestions={suggestions.filter(
+              (suggestion) => suggestion.companyId === company.id,
+            )}
+          />
+        ))}
+      </div>
+    </Page>
   );
 };
 

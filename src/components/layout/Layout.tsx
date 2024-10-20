@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../sidebar/Sidebar.tsx";
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
