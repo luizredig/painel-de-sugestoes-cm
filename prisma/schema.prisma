@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Suggestion {
+  id          String             @id @default(uuid())
+  title       String
+  description String?
+  companyId   String
+  company     Company            @relation(fields: [companyId], references: [id])
+  statusId    String
+  status      SuggestionStatus   @relation(fields: [statusId], references: [id])
+  agents      SuggestionsAgent[] @relation("SuggestionAgents")
+  isActive    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model Company {
+  id          String       @id @default(uuid())
+  name        String
+  suggestions Suggestion[]
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model SuggestionsAgent {
+  id          String       @id @default(uuid())
+  name        String
+  suggestions Suggestion[] @relation("SuggestionAgents")
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model SuggestionStatus {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  suggestions Suggestion[]
+}
