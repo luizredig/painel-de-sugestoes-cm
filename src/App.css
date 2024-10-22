@@ -2,105 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
-* These styles were added to improve the appearance of the example pages.
-* It is safe to delete them, and they are not intended to be used by Refine components.
-*/
 @layer base {
-  input {
-    @apply rounded-sm border border-gray-300;
-  }
-
-  input[type="submit"] {
-    @apply bg-[#EFEFEF];
-  }
-
-  button {
-    @apply rounded-sm border border-gray-300 bg-[#EFEFEF] px-2;
-  }
-
-  h1 {
-    @apply my-6 text-2xl font-bold;
-  }
-
-  ul {
-    @apply my-4 list-disc;
-  }
-
-  a {
-    @apply text-blue-700 underline;
-  }
-
-  label {
-    @apply text-sm font-medium;
-  }
-
-  body {
-    @apply m-0 bg-white;
-  }
-
-  table {
-    @apply border-collapse border border-black;
-  }
-
-  table th,
-  table td {
-    @apply m-0 border-b border-r border-black p-2;
-  }
-
-  table tr:last-child td {
-    @apply border-b-0;
-  }
-
-  table th:last-child,
-  table td:last-child {
-    @apply border-r-0;
-  }
-
-  .layout {
-    @apply flex gap-4;
-  }
-
-  @media (max-width: 751px) {
-    .layout {
-      @apply block;
-    }
-  }
-
-  .layout .content {
-    @apply flex flex-grow flex-col;
-  }
-
-  .breadcrumb {
-    @apply flex gap-6 border-b border-gray-300 p-2 px-4;
-    list-style-type: "/ ";
-  }
-
-  .breadcrumb a {
-    @apply text-blue-700 no-underline;
-  }
-
-  .menu {
-    @apply flex-shrink-0 border-r border-gray-300 p-2 pr-4;
-  }
-
-  .menu a {
-    @apply text-black;
-  }
-
-  .menu .active {
-    @apply font-bold;
-  }
-
-  @media (max-width: 751px) {
-    .menu {
-      @apply border-b border-r-0 border-gray-300;
-    }
-  }
-
-  .menu ul {
-    @apply pl-4;
-  }
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -156,9 +58,6 @@
   }
 }
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply h-screen min-w-80 bg-background text-foreground;
   }
