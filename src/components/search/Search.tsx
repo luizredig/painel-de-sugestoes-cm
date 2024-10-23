@@ -1,11 +1,12 @@
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale"; // Importação correta do ptBR
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
@@ -70,7 +71,9 @@ const Search = () => {
                           className="pl-3 text-left font-normal"
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "dd 'de' MMMM 'de' yyyy", {
+                              locale: ptBR,
+                            })
                           ) : (
                             <span>Escolha a data</span>
                           )}
@@ -82,6 +85,7 @@ const Search = () => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={ptBR}
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) => date > new Date()}
@@ -111,7 +115,9 @@ const Search = () => {
                           className="pl-3 text-left font-normal"
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "dd 'de' MMMM 'de' yyyy", {
+                              locale: ptBR,
+                            })
                           ) : (
                             <span>Escolha a data</span>
                           )}
@@ -123,6 +129,7 @@ const Search = () => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={ptBR}
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) => date > new Date()}
