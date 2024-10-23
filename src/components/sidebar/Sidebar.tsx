@@ -35,14 +35,6 @@ const Sidebar = () => {
               path="/painel-de-sugestoes/gerenciar"
             />
           </SidebarItem>
-
-          {/* Option - Empresas */}
-          <SidebarItem
-            type="button"
-            title="Empresas"
-            icon={<Building2Icon className="text-primary" />}
-            path="/empresas"
-          />
         </CardContent>
       </Card>
     </>
