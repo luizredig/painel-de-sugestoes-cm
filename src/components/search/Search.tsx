@@ -54,21 +54,6 @@ const Search = () => {
           </div>
 
           <div className="flex items-end gap-3">
-            {/* Buscar */}
-            <FormField
-              name="search"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="flex w-full">
-                  <FormControl>
-                    <Input placeholder="Buscar..." {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             {/* Data de Início */}
             <FormField
               name="startDate"
