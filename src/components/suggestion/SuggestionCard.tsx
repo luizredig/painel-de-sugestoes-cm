@@ -24,7 +24,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
   return (
     <>
       <Card
-        className="flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5 hover:bg-gray-100"
+        className="flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5"
         onClick={() => setIsModalOpen(true)}
       >
         <Badge className="p-1 hover:bg-primary"></Badge>
@@ -42,15 +42,17 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
               </Tooltip>
 
               <Tooltip>
-                <TooltipTrigger className="flex cursor-default border-none bg-transparent">
+                <TooltipTrigger className="flex overflow-y-hidden border-none">
                   <span
-                    className="text-md select-none overflow-hidden pb-2 text-left text-muted-foreground"
+                    className="text-md select-none text-left text-muted-foreground"
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 3,
                       WebkitBoxOrient: "vertical",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
+                      lineHeight: "1.2",
+                      maxHeight: "3.6em",
                     }}
                   >
                     {suggestion.description}
@@ -65,7 +67,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                 Status:
               </span>
 
-              <div className="flex">
+              <div className="flex" onClick={(e) => e.stopPropagation()}>
                 <SuggestionStatusSelect />
               </div>
             </div>
@@ -91,7 +93,10 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                 </div>
               </div>
 
-              <div className="flex w-1/4 flex-col">
+              <div
+                className="flex w-1/4 flex-col"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span className="text-[10px] font-bold text-muted-foreground">
                   Responsáveis:
                 </span>
