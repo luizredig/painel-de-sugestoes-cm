@@ -1,4 +1,4 @@
-import { AppWindowIcon, CogIcon, ListIcon } from "lucide-react";
+import { AppWindowIcon, Building2Icon, CogIcon, ListIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import SidebarItem from "./SidebarItem";
 
@@ -14,7 +14,7 @@ const Sidebar = () => {
 
         {/* Content */}
         <CardContent className="flex flex-1 flex-col bg-secondary p-0">
-          {/* Sidebar Button Item */}
+          {/* Option - Painel de sugestões */}
           <SidebarItem
             type="button"
             title="Painel de sugestões"
@@ -22,7 +22,7 @@ const Sidebar = () => {
             path="/painel-de-sugestoes"
           />
 
-          {/* Sidebar Accordion Item - Sugestões */}
+          {/* Accordion - Sugestões */}
           <SidebarItem
             type="accordion"
             title="Sugestões"

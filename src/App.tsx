@@ -11,6 +11,7 @@ import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel";
 import CreateSuggestion from "./pages/painel-de-sugestoes/create/CreateSuggestion";
 import ManageSuggestions from "./pages/painel-de-sugestoes/gerenciar/ManageSuggestions";
 import { TooltipProvider } from "./components/ui/tooltip";
+import CompaniesView from "./pages/companies/CompaniesView";
 
 function App() {
   return (
@@ -58,6 +59,12 @@ function App() {
             <Route path="edit/:id" element={<></>} />
 
             <Route path="show/:id" element={<></>} />
+          </Route>
+
+          <Route index element={<Navigate to="/painel-de-sugestoes" />} />
+
+          <Route path="/empresas">
+            <Route index element={<CompaniesView />} />
           </Route>
 
           <Route
