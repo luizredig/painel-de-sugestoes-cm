@@ -12,31 +12,31 @@ model Suggestion {
   title       String
   description String?
   companyId   String
-  company     Company            @relation(fields: [companyId], references: [id])
   statusId    String
-  status      SuggestionStatus   @relation(fields: [statusId], references: [id])
-  agents      SuggestionsAgent[] @relation("SuggestionAgents")
   isActive    Boolean            @default(true)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
+  company     Company            @relation(fields: [companyId], references: [id])
+  status      SuggestionStatus   @relation(fields: [statusId], references: [id])
+  agents      SuggestionsAgent[] @relation("SuggestionAgents")
 }
 
 model Company {
   id          String       @id @default(uuid())
   name        String
-  suggestions Suggestion[]
   isActive    Boolean      @default(true)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  suggestions Suggestion[]
 }
 
 model SuggestionsAgent {
   id          String       @id @default(uuid())
   name        String
-  suggestions Suggestion[] @relation("SuggestionAgents")
   isActive    Boolean      @default(true)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  suggestions Suggestion[] @relation("SuggestionAgents")
 }
 
 model SuggestionStatus {
