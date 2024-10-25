@@ -1,29 +1,35 @@
 import Search from "@/components/search/Search";
 import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow";
 import { Company, Suggestion } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Page from "../template/Page";
+import { Sparkles } from "lucide-react";
+import Spinner from "@/components/loading/Spinner";
 
 const SuggestionPanel = () => {
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [companies, setCompanies] = useState<
+    (Company & { suggestions: Suggestion[] })[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [companiesResponse, suggestionsResponse] = await Promise.all([
-          fetch("http://localhost:3000/api/companies"),
-          fetch("http://localhost:3000/api/suggestions"),
-        ]);
+        const companiesResponse = await fetch(
+          "http://localhost:3000/api/companies",
+        );
+        const fetchedCompanies = await companiesResponse.json();
 
-        const fetchedCompanies: Company[] = await companiesResponse.json();
-        const fetchedSuggestions: Suggestion[] =
-          await suggestionsResponse.json();
+        const companiesWithSuggestions = fetchedCompanies.filter(
+          (company: Company & { suggestions: Suggestion[] }) =>
+            company.suggestions.length > 0,
+        );
 
-        setCompanies(fetchedCompanies);
-        setSuggestions(fetchedSuggestions);
+        setCompanies(companiesWithSuggestions);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -40,13 +46,26 @@ const SuggestionPanel = () => {
           </div>
 
           <div className="flex h-screen w-full flex-col overflow-y-scroll">
-            {companies.map((company) => (
-              <CompanySuggestionRow
-                key={company.id}
-                company={company}
-                suggestions={suggestions}
-              />
-            ))}
+            {isLoading ? (
+              <div className="flex flex-1 items-center justify-center p-5">
+                <Spinner />
+              </div>
+            ) : companies.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center gap-1 p-5">
+                <Sparkles className="text-primary" />
+                <p className="select-none text-muted-foreground">
+                  Nenhuma sugestão, por enquanto!
+                </p>
+              </div>
+            ) : (
+              companies.map((company) => (
+                <CompanySuggestionRow
+                  key={company.id}
+                  company={company}
+                  suggestions={company.suggestions}
+                />
+              ))
+            )}
           </div>
         </div>
       }

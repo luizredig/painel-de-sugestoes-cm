@@ -11,5 +11,14 @@ export const createCompany = async (
 };
 
 export const getAllCompanies = async () => {
-  return prisma.company.findMany();
+  return prisma.company.findMany({
+    where: {
+      suggestions: {
+        some: {},
+      },
+    },
+    include: {
+      suggestions: true,
+    },
+  });
 };
