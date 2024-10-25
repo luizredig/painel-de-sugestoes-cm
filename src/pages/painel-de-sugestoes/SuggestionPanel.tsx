@@ -1,11 +1,34 @@
-import Page from "../template/Page";
-import { mock } from "../../../environment/mock";
-import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow";
 import Search from "@/components/search/Search";
+import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow";
+import { Company, Suggestion } from "@prisma/client";
+import React, { useEffect, useState } from "react";
+import Page from "../template/Page";
 
 const SuggestionPanel = () => {
-  const suggestions = mock.Suggestion;
-  const companies = mock.Company;
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [companiesResponse, suggestionsResponse] = await Promise.all([
+          fetch("http://localhost:3000/api/companies"),
+          fetch("http://localhost:3000/api/suggestions"),
+        ]);
+
+        const fetchedCompanies: Company[] = await companiesResponse.json();
+        const fetchedSuggestions: Suggestion[] =
+          await suggestionsResponse.json();
+
+        setCompanies(fetchedCompanies);
+        setSuggestions(fetchedSuggestions);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Page

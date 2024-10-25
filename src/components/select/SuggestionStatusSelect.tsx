@@ -4,13 +4,22 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { mock } from "../../../environment/mock";
-import { useState } from "react";
+} from "../ui/select.tsx";
+import { useState, useEffect } from "react";
+import { prisma } from "@/lib/prisma.ts";
+import { SuggestionStatus } from "@prisma/client";
 
 const SuggestionStatusSelect = () => {
-  const options = mock.SuggestionStatus;
+  const [options, setOptions] = useState<SuggestionStatus[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
+
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      const statuses = await prisma.suggestionStatus.findMany();
+      setOptions(statuses);
+    };
+    fetchStatuses();
+  }, []);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);

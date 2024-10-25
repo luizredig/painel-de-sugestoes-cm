@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/ui/card.tsx";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/ui/tooltip.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
 import { BuildingIcon } from "lucide-react";
-import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect";
-import { mock } from "../../../environment/mock";
+import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect.tsx";
 import { Suggestion } from "@prisma/client";
-import AgentMultiSelect from "../select/AgentMultiSelect";
-import SuggestionDetails from "./SuggestionDetails";
+import SuggestionDetails from "./SuggestionDetails.tsx";
 
 type SuggestionCardProps = {
   suggestion: Suggestion;
@@ -19,7 +17,6 @@ type SuggestionCardProps = {
 
 const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const agents = mock.SuggestionsAgent;
 
   return (
     <>
@@ -100,10 +97,6 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                 <span className="text-[10px] font-bold text-muted-foreground">
                   Responsáveis:
                 </span>
-
-                <div className="flex">
-                  <AgentMultiSelect agents={agents} />
-                </div>
               </div>
             </div>
           </div>
