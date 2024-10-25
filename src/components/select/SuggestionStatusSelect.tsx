@@ -1,12 +1,4 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select.tsx";
 import { useState, useEffect } from "react";
-import { prisma } from "@/lib/prisma.ts";
 import { SuggestionStatus } from "@prisma/client";
 import {
   Select,
@@ -15,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { prismaClient } from "@/lib/prisma";
 
 const SuggestionStatusSelect = () => {
   const [options, setOptions] = useState<SuggestionStatus[]>([]);
@@ -22,7 +15,7 @@ const SuggestionStatusSelect = () => {
 
   useEffect(() => {
     const fetchStatuses = async () => {
-      const statuses = await prisma.suggestionStatus.findMany();
+      const statuses = await prismaClient.suggestionStatus.findMany();
       setOptions(statuses);
     };
     fetchStatuses();

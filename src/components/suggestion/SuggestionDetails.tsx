@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-import { prisma } from "@/lib/prisma.ts";
+import { prismaClient } from "@/lib/prisma";
 import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
 
 type SuggestionDetailsProps = {
@@ -25,7 +25,7 @@ const SuggestionDetails = ({
 
   useEffect(() => {
     const fetchSuggestionDetails = async () => {
-      const fetchedSuggestion = await prisma.suggestion.findUnique({
+      const fetchedSuggestion = await prismaClient.suggestion.findUnique({
         where: { id: suggestionId },
         include: {
           agents: true,
