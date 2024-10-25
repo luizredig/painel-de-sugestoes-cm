@@ -1,6 +1,9 @@
+import { Company, Prisma } from "@prisma/client";
 import * as companyRepository from "../repositories/companyRepository";
 
-export const createCompany = async (data: any) => {
+export const createCompany = async (
+  data: Prisma.CompanyCreateInput,
+): Promise<Company> => {
   return await companyRepository.createCompany(data);
 };
 

@@ -1,8 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { Company, Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createCompany = async (data: any) => {
+export const createCompany = async (
+  data: Prisma.CompanyCreateInput,
+): Promise<Company> => {
   return prisma.company.create({
     data,
   });
