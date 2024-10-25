@@ -1,5 +1,5 @@
-import express, { Router } from "express";
-import * as suggestionController from "../controllers/suggestionController.ts";
+import { Router } from "express";
+import * as suggestionController from "../controllers/suggestionController";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../ui/button.tsx";
+import { Button } from "../ui/button";
 
 interface SidebarButtonProps {
   children?: React.ReactNode;

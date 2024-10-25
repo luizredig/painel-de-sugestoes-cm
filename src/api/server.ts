@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import suggestionRoutes from "../api/routes/suggestionRoutes.ts";
-import companyRoutes from "../api/routes/companyRoutes.ts";
-import statusRoutes from "../api/routes/statusRoutes.ts";
+import suggestionRoutes from "../api/routes/suggestionRoutes";
+import companyRoutes from "../api/routes/companyRoutes";
+import statusRoutes from "../api/routes/statusRoutes";
 
 const app = express();
 app.use(express.json());

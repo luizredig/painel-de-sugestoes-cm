@@ -8,6 +8,13 @@ import {
 import { useState, useEffect } from "react";
 import { prisma } from "@/lib/prisma.ts";
 import { SuggestionStatus } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const SuggestionStatusSelect = () => {
   const [options, setOptions] = useState<SuggestionStatus[]>([]);

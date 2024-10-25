@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card.tsx";
+import { Card } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { BuildingIcon } from "lucide-react";
-import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect.tsx";
+import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect";
 import { Suggestion } from "@prisma/client";
-import SuggestionDetails from "./SuggestionDetails.tsx";
+import SuggestionDetails from "./SuggestionDetails";
 
 type SuggestionCardProps = {
   suggestion: Suggestion;

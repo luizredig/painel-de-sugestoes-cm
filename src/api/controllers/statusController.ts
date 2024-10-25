@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as statusService from "../services/statusService.ts";
+import * as statusService from "../services/statusService";
 
 export const createStatus = async (req: Request, res: Response) => {
   try {

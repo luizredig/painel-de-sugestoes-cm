@@ -1,10 +1,10 @@
-import { Button } from "../ui/button.tsx";
+import { Button } from "../ui/button";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "../ui/accordion.tsx";
+} from "../ui/accordion";
 import { useNavigate } from "react-router-dom";
 
 interface SidebarItemProps {

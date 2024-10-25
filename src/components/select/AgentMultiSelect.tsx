@@ -4,7 +4,7 @@ import {
   SelectTrigger,
   SelectContent,
   SelectGroup,
-} from "../ui/select.tsx";
+} from "../ui/select";
 import { SuggestionsAgent } from "@prisma/client";
 import { CheckIcon } from "lucide-react";
 

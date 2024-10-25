@@ -1,4 +1,4 @@
-import { Card } from "../ui/card.tsx";
+import { Card } from "../ui/card";
 
 type TopbarProps = {
   title: string;

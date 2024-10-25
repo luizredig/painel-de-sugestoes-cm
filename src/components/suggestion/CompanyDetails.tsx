@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card.tsx";
+import { Card } from "@/components/ui/card";
 import { XIcon } from "lucide-react";
-import SuggestionCard from "./SuggestionCard.tsx";
-import { prisma } from "@/lib/prisma.ts";
+import SuggestionCard from "./SuggestionCard";
 import { Company, Suggestion, SuggestionStatus } from "@prisma/client";
 
 type CompanyDetailsProps = {

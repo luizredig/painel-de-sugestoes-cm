@@ -1,4 +1,4 @@
-import * as suggestionRepository from "../repositories/suggestionRepository.ts";
+import * as suggestionRepository from "../repositories/suggestionRepository";
 
 export const createSuggestion = async (data: any) => {
   return await suggestionRepository.createSuggestion(data);

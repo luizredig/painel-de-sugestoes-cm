@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as suggestionService from "../services/suggestionService.ts";
+import * as suggestionService from "../services/suggestionService";
 
 export const createSuggestion = async (req: Request, res: Response) => {
   try {
