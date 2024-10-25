@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { XIcon } from "lucide-react";
 import SuggestionCard from "./SuggestionCard";
 import { Company, Suggestion, SuggestionStatus } from "@prisma/client";
+import { prismaClient } from "@/lib/prisma";
 
 type CompanyDetailsProps = {
   companyId: string;
@@ -21,11 +22,11 @@ const CompanyDetails = ({ companyId, onClose }: CompanyDetailsProps) => {
 
   useEffect(() => {
     const fetchCompanyDetails = async () => {
-      const fetchedCompany = await prisma.company.findUnique({
+      const fetchedCompany = await prismaClient.company.findUnique({
         where: { id: companyId },
       });
 
-      const suggestions = await prisma.suggestion.findMany({
+      const suggestions = await prismaClient.suggestion.findMany({
         where: { companyId },
         include: { status: true },
       });
