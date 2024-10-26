@@ -3,6 +3,7 @@ import cors from "cors";
 import suggestionRoutes from "../api/routes/suggestionRoutes";
 import companyRoutes from "../api/routes/companyRoutes";
 import statusRoutes from "../api/routes/statusRoutes";
+import agentRoutes from "../api/routes/agentRoutes";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 app.use("/api", suggestionRoutes);
 app.use("/api", companyRoutes);
 app.use("/api", statusRoutes);
+app.use("/api", agentRoutes);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:5174");
