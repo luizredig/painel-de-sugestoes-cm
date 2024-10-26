@@ -6,17 +6,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { SuggestionStatus } from "@prisma/client";
 
 const SuggestionStatusSelect = () => {
-  const [options, setOptions] = useState<{ id: string; name: string }[]>([]);
+  const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   useEffect(() => {
     const fetchStatuses = async () => {
       try {
-        const response = await fetch("/api/suggestion-status");
-        const data = await response.json();
-        setOptions(data);
+        const statusesResponse = await fetch(
+          "http://localhost:3000/api/suggestion-status",
+        );
+        const fetchedStatuses = await statusesResponse.json();
+
+        setStatuses(fetchedStatuses);
       } catch (error) {
         console.error("Error fetching suggestion statuses:", error);
       }
@@ -45,7 +49,7 @@ const SuggestionStatusSelect = () => {
       </SelectTrigger>
 
       <SelectContent>
-        {options.map((option) => (
+        {statuses.map((option) => (
           <SelectItem key={option.id} value={option.name}>
             {option.name}
           </SelectItem>

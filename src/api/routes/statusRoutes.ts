@@ -3,7 +3,7 @@ import * as statusController from "../controllers/statusController";
 
 const router = Router();
 
-router.post("/statuses", statusController.createStatus);
-router.get("/statuses", statusController.getAllStatuses);
+router.post("/suggestion-status", statusController.createStatus);
+router.get("/suggestion-status", statusController.getAllStatuses);
 
 export default router;

@@ -10,7 +10,7 @@ export const createStatus = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllStatuses = async (req: Request, res: Response) => {
+export const getAllStatuses = async (_: Request, res: Response) => {
   try {
     const statuses = await statusService.getAllStatuses();
     res.status(200).json(statuses);
