@@ -22,7 +22,11 @@ export const getCompaniesWithSuggestions = async () => {
       },
     },
     include: {
-      suggestions: true,
+      suggestions: {
+        include: {
+          agents: true,
+        },
+      },
     },
   });
 };
