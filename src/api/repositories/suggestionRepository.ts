@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createSuggestion = async (data: any) => {
+export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
   return prisma.suggestion.create({
     data,
   });

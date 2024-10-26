@@ -1,6 +1,7 @@
+import { Prisma } from "@prisma/client";
 import * as suggestionRepository from "../repositories/suggestionRepository";
 
-export const createSuggestion = async (data: any) => {
+export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
   return await suggestionRepository.createSuggestion(data);
 };
 
