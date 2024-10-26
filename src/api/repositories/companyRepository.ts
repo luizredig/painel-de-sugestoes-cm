@@ -11,6 +11,10 @@ export const createCompany = async (
 };
 
 export const getAllCompanies = async () => {
+  return prisma.company.findMany({});
+};
+
+export const getCompaniesWithSuggestions = async () => {
   return prisma.company.findMany({
     where: {
       suggestions: {

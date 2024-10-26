@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { SuggestionStatus } from "@prisma/client";
 import {
   Select,
   SelectContent,
@@ -7,16 +6,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { prismaClient } from "@/lib/prisma";
 
 const SuggestionStatusSelect = () => {
-  const [options, setOptions] = useState<SuggestionStatus[]>([]);
+  const [options, setOptions] = useState<{ id: string; name: string }[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   useEffect(() => {
     const fetchStatuses = async () => {
-      const statuses = await prismaClient.suggestionStatus.findMany();
-      setOptions(statuses);
+      try {
+        const response = await fetch("/api/suggestion-status");
+        const data = await response.json();
+        setOptions(data);
+      } catch (error) {
+        console.error("Error fetching suggestion statuses:", error);
+      }
     };
     fetchStatuses();
   }, []);

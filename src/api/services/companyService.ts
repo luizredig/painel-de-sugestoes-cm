@@ -10,3 +10,7 @@ export const createCompany = async (
 export const getAllCompanies = async () => {
   return await companyRepository.getAllCompanies();
 };
+
+export const getCompaniesWithSuggestions = async () => {
+  return await companyRepository.getCompaniesWithSuggestions();
+};

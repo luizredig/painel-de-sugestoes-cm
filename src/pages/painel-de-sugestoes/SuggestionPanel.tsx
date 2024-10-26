@@ -16,14 +16,19 @@ const SuggestionPanel = () => {
     const fetchData = async () => {
       try {
         const companiesResponse = await fetch(
-          "http://localhost:3000/api/companies",
+          "http://localhost:3000/api/companies/with-suggestions",
         );
         const fetchedCompanies = await companiesResponse.json();
 
-        const companiesWithSuggestions = fetchedCompanies.filter(
-          (company: Company & { suggestions: Suggestion[] }) =>
-            company.suggestions.length > 0,
-        );
+        const companiesWithSuggestions = fetchedCompanies
+          .map((company: Company & { suggestions?: Suggestion[] }) => ({
+            ...company,
+            suggestions: company.suggestions ?? [],
+          }))
+          .filter(
+            (company: Company & { suggestions: Suggestion[] }) =>
+              company.suggestions.length > 0,
+          );
 
         setCompanies(companiesWithSuggestions);
       } catch (error) {

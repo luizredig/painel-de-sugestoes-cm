@@ -10,9 +10,21 @@ export const createCompany = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllCompanies = async (req: Request, res: Response) => {
+export const getAllCompanies = async (_: Request, res: Response) => {
   try {
     const companies = await companyService.getAllCompanies();
+    res.status(200).json(companies);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching companies", error });
+  }
+};
+
+export const getCompaniesWithSuggestions = async (
+  _: Request,
+  res: Response,
+) => {
+  try {
+    const companies = await companyService.getCompaniesWithSuggestions();
     res.status(200).json(companies);
   } catch (error) {
     res.status(500).json({ message: "Error fetching companies", error });
