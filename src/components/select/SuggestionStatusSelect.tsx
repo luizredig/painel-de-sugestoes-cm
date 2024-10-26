@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -5,12 +6,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { mock } from "../../../environment/mock";
-import { useState } from "react";
+import { SuggestionStatus } from "@prisma/client";
 
 const SuggestionStatusSelect = () => {
-  const options = mock.SuggestionStatus;
+  const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
+
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      try {
+        const statusesResponse = await fetch(
+          "http://localhost:3000/api/suggestion-status",
+        );
+        const fetchedStatuses = await statusesResponse.json();
+
+        setStatuses(fetchedStatuses);
+      } catch (error) {
+        console.error("Error fetching suggestion statuses:", error);
+      }
+    };
+    fetchStatuses();
+  }, []);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
@@ -33,7 +49,7 @@ const SuggestionStatusSelect = () => {
       </SelectTrigger>
 
       <SelectContent>
-        {options.map((option) => (
+        {statuses.map((option) => (
           <SelectItem key={option.id} value={option.name}>
             {option.name}
           </SelectItem>

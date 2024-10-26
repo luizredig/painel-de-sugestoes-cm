@@ -1,23 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-import { mock } from "../../../environment/mock";
+import { prismaClient } from "@/lib/prisma";
+import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
 
 type SuggestionDetailsProps = {
   suggestionId: string;
   onClose: () => void;
 };
 
+type SuggestionWithAgentsAndStatus = Suggestion & {
+  agents: SuggestionsAgent[];
+  status: SuggestionStatus;
+};
+
 const SuggestionDetails = ({
   suggestionId,
   onClose,
 }: SuggestionDetailsProps) => {
-  const suggestion = mock.Suggestion.find((s) => s.id === suggestionId);
-  const agents = mock.SuggestionsAgent.filter((agent) =>
-    suggestion?.agents.map((a) => a.id).includes(agent.id),
-  );
+  const [suggestion, setSuggestion] =
+    useState<SuggestionWithAgentsAndStatus | null>(null);
+
+  useEffect(() => {
+    const fetchSuggestionDetails = async () => {
+      const fetchedSuggestion = await prismaClient.suggestion.findUnique({
+        where: { id: suggestionId },
+        include: {
+          agents: true,
+          status: true,
+        },
+      });
+
+      setSuggestion(fetchedSuggestion);
+    };
+
+    fetchSuggestionDetails();
+  }, [suggestionId]);
 
   if (!suggestion) return null;
 
@@ -43,11 +63,8 @@ const SuggestionDetails = ({
 
           <div>
             <h3 className="text-xl font-semibold text-gray-700">Status</h3>
-            <Badge className="mt-2 p-2 text-sm">
-              {
-                mock.SuggestionStatus.find((s) => s.id === suggestion.statusId)
-                  ?.name
-              }
+            <Badge className="no-hover mt-2 p-2 text-sm">
+              {suggestion.status.name}
             </Badge>
           </div>
 
@@ -56,8 +73,8 @@ const SuggestionDetails = ({
               Responsáveis
             </h3>
             <div className="mt-2 flex flex-wrap gap-2">
-              {agents.map((agent) => (
-                <Badge key={agent.id} className="p-2 text-sm">
+              {suggestion.agents.map((agent) => (
+                <Badge key={agent.id} className="no-hover p-2 text-sm">
                   {agent.name}
                 </Badge>
               ))}
@@ -65,22 +82,11 @@ const SuggestionDetails = ({
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-gray-700">Empresa</h3>
-            <Badge className="mt-2 p-2 text-sm">
-              {
-                mock.Company.find(
-                  (company) => company.id === suggestion.companyId,
-                )?.name
-              }
-            </Badge>
-          </div>
-
-          <div>
             <h3 className="text-xl font-semibold text-gray-700">
               Data de Criação
             </h3>
             <p className="mt-2 text-gray-600">
-              {format(suggestion.createdAt, "dd/MM/yyyy")}
+              {format(new Date(suggestion.createdAt), "dd/MM/yyyy")}
             </p>
           </div>
         </div>

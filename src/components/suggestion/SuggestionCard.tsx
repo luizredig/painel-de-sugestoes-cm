@@ -1,25 +1,70 @@
-import React, { useState } from "react";
+import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect";
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
+import {
+  Company,
+  Suggestion,
+  SuggestionsAgent,
+  SuggestionStatus,
+} from "@prisma/client";
 import { BuildingIcon } from "lucide-react";
-import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect";
-import { mock } from "../../../environment/mock";
-import { Suggestion } from "@prisma/client";
-import AgentMultiSelect from "../select/AgentMultiSelect";
+import { useEffect, useState } from "react";
 import SuggestionDetails from "./SuggestionDetails";
+import AgentMultiSelect from "../select/AgentMultiSelect";
+import { Skeleton } from "../ui/skeleton";
 
 type SuggestionCardProps = {
-  suggestion: Suggestion;
+  suggestion: Suggestion & {
+    company: Company;
+    status: SuggestionStatus;
+    agents: SuggestionsAgent[];
+  };
 };
 
 const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const agents = mock.SuggestionsAgent;
+  const [companyName, setCompanyName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCompany = async () => {
+      try {
+        const companyResponse = await fetch(
+          `http://localhost:3000/api/companies/${suggestion.companyId}`,
+        );
+        const { name } = await companyResponse.json();
+
+        setCompanyName(name);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching company:", error);
+      }
+    };
+
+    if (suggestion.companyId) {
+      fetchCompany();
+    }
+  }, [suggestion.companyId]);
+
+  if (isLoading) {
+    return (
+      <Card className="flex h-52 w-96 gap-3 p-2 pr-5">
+        <div className="flex w-full flex-col">
+          <Skeleton className="mb-2 h-8 w-3/4" />
+          <Skeleton className="mb-2 h-16 w-full" />{" "}
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-5 w-1/3" />{" "}
+            <Skeleton className="h-5 w-1/4" />
+          </div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -29,7 +74,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
       >
         <Badge className="p-1 hover:bg-primary"></Badge>
 
-        <div className="flex h-full flex-col justify-between overflow-hidden py-4 pr-2">
+        <div className="flex h-full w-full flex-col justify-between overflow-hidden py-4 pr-2">
           <div className="flex">
             <div className="flex w-3/4 flex-col">
               <Tooltip>
@@ -38,6 +83,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                     {suggestion.title}
                   </span>
                 </TooltipTrigger>
+
                 <TooltipContent>{suggestion.title}</TooltipContent>
               </Tooltip>
 
@@ -84,11 +130,11 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="select-none truncate text-[10px]">
-                        {suggestion.companyId}
+                        {companyName}
                       </span>
                     </TooltipTrigger>
 
-                    <TooltipContent>{suggestion.companyId}</TooltipContent>
+                    <TooltipContent>{companyName}</TooltipContent>
                   </Tooltip>
                 </div>
               </div>
@@ -101,9 +147,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
                   Responsáveis:
                 </span>
 
-                <div className="flex">
-                  <AgentMultiSelect agents={agents} />
-                </div>
+                <AgentMultiSelect />
               </div>
             </div>
           </div>
