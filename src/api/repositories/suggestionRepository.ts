@@ -9,13 +9,7 @@ export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
 };
 
 export const getAllSuggestions = async () => {
-  return prisma.suggestion.findMany({
-    include: {
-      company: true,
-      status: true,
-      agents: true,
-    },
-  });
+  return prisma.suggestion.findMany();
 };
 
 export const deleteSuggestion = async (id: string) => {
