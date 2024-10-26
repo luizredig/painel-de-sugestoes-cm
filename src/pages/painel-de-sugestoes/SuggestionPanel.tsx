@@ -20,17 +20,7 @@ const SuggestionPanel = () => {
         );
         const fetchedCompanies = await companiesResponse.json();
 
-        const companiesWithSuggestions = fetchedCompanies
-          .map((company: Company & { suggestions?: Suggestion[] }) => ({
-            ...company,
-            suggestions: company.suggestions ?? [],
-          }))
-          .filter(
-            (company: Company & { suggestions: Suggestion[] }) =>
-              company.suggestions.length > 0,
-          );
-
-        setCompanies(companiesWithSuggestions);
+        setCompanies(fetchedCompanies);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
@@ -58,6 +48,7 @@ const SuggestionPanel = () => {
             ) : companies.length === 0 ? (
               <div className="flex flex-1 items-center justify-center gap-1 p-5">
                 <Sparkles className="text-primary" />
+
                 <p className="select-none text-muted-foreground">
                   Nenhuma sugestão, por enquanto!
                 </p>
