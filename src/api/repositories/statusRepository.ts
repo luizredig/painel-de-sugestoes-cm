@@ -1,8 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createStatus = async (data: any) => {
+export const createStatus = async (
+  data: Prisma.SuggestionStatusCreateInput,
+) => {
   return prisma.suggestionStatus.create({
     data,
   });

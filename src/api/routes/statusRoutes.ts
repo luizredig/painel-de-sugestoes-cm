@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import * as statusController from "../controllers/statusController";
 
 const router = Router();
