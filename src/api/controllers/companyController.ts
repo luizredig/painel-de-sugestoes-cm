@@ -30,3 +30,13 @@ export const getCompaniesWithSuggestions = async (
     res.status(500).json({ message: "Error fetching companies", error });
   }
 };
+
+export const getCompanyById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const company = await companyService.getCompanyById(id);
+    res.status(200).json(company);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching company", error });
+  }
+};

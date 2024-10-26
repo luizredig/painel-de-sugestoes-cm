@@ -10,4 +10,6 @@ router.get(
   companyController.getCompaniesWithSuggestions,
 );
 
+router.get("/companies/:id", companyController.getCompanyById);
+
 export default router;

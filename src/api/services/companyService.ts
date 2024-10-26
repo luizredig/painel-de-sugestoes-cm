@@ -14,3 +14,7 @@ export const getAllCompanies = async () => {
 export const getCompaniesWithSuggestions = async () => {
   return await companyRepository.getCompaniesWithSuggestions();
 };
+
+export const getCompanyById = async (id: string) => {
+  return await companyRepository.getCompanyById({ id });
+};

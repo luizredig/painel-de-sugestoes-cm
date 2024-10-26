@@ -26,3 +26,7 @@ export const getCompaniesWithSuggestions = async () => {
     },
   });
 };
+
+export const getCompanyById = async ({ id }: { id: string }) => {
+  return prisma.company.findUnique({ where: { id } });
+};
