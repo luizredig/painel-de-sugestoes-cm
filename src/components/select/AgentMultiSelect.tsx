@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Select,
   SelectTrigger,
@@ -8,12 +8,23 @@ import {
 import { SuggestionsAgent } from "@prisma/client";
 import { CheckIcon } from "lucide-react";
 
-interface AgentMultiSelectProps {
-  agents: SuggestionsAgent[];
-}
-
-const AgentMultiSelect: React.FC<AgentMultiSelectProps> = ({ agents }) => {
+const AgentMultiSelect = () => {
+  const [agents, setAgents] = useState<SuggestionsAgent[]>([]);
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/agents");
+        const data = await response.json();
+        setAgents(data);
+      } catch (error) {
+        console.error("Erro ao buscar agentes:", error);
+      }
+    };
+
+    fetchAgents();
+  }, []);
 
   const handleAgentChange = (agentName: string) => {
     setSelectedAgents((prev) =>
@@ -29,7 +40,7 @@ const AgentMultiSelect: React.FC<AgentMultiSelectProps> = ({ agents }) => {
 
   return (
     <Select>
-      <SelectTrigger className="h-fit w-64 px-2 py-1 text-[10px] outline-none focus:ring-background focus-visible:ring-0">
+      <SelectTrigger className="h-fit w-full px-2 py-1 text-[10px] outline-none focus:ring-background focus-visible:ring-0">
         <span>
           {selectedAgents.length > 0
             ? getFirstNames(selectedAgents)
