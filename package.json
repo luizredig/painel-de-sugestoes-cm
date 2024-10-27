@@ -78,7 +78,10 @@
     "build": "tsc && refine build",
     "start": "refine start",
     "refine": "refine",
-    "prepare": "husky"
+    "prepare": "husky && prisma generate"
+  },
+  "prisma": {
+    "seed": "node dist/prisma/seed.js"
   },
   "browserslist": {
     "production": [
