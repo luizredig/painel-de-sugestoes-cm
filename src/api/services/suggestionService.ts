@@ -27,6 +27,11 @@ export const getOrCreateStatusByName = async (name: string) => {
   return status;
 };
 
-export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
+export const createSuggestion = async (data: {
+  title: string;
+  description?: string;
+  isActive?: boolean;
+  companyId: string;
+}) => {
   return await suggestionRepository.createSuggestion(data);
 };

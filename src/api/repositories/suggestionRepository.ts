@@ -2,8 +2,15 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
+export const createSuggestion = async (data: {
+  title: string;
+  description?: string;
+  isActive?: boolean;
+  companyId: string;
+}) => {
   try {
+    const isActive = data.isActive !== undefined ? data.isActive : true;
+
     const pendingStatus = await prisma.suggestionStatus.findUnique({
       where: { slug: "pendente" },
     });
@@ -12,14 +19,21 @@ export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
       throw new Error("Status 'Pendente' não encontrado");
     }
 
-    return prisma.suggestion.create({
+    const suggestion = await prisma.suggestion.create({
       data: {
-        ...data,
+        title: data.title,
+        description: data.description || null,
+        isActive: isActive,
+        company: {
+          connect: { id: data.companyId },
+        },
         status: {
           connect: { id: pendingStatus.id },
         },
       },
     });
+
+    return suggestion;
   } catch (error) {
     console.error("Erro ao criar sugestão:", error);
     throw error;
@@ -48,7 +62,7 @@ export const getAllSuggestions = async (isActive?: boolean) => {
       isActive: isActive !== undefined ? isActive : undefined,
     },
     include: {
-      company: true, // Inclui os dados da empresa
+      company: true,
     },
   });
 };
