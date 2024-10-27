@@ -25,7 +25,7 @@ const Sidebar = () => {
           >
             <SidebarItem
               type="button"
-              title="Gerenciar"
+              title="Gerenciar (Administrador)"
               icon={<CogIcon className="text-primary" size={20} />}
               path="/painel-de-sugestoes/gerenciar"
             />
