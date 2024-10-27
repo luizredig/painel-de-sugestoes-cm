@@ -1,18 +1,17 @@
-// src/pages/ManageAll.tsx
-import React, { useEffect, useState } from "react";
-import { DataTable } from "@/components/ui/datagrid";
 import {
   EditCompanyForm,
   EditSuggestionForm,
 } from "@/components/forms/ManagementForms";
 import { Button } from "@/components/ui/button";
-import { Company, Suggestion } from "@/types/types";
-import { PencilIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { ColumnDef, CellContext } from "@tanstack/react-table";
-import Page from "@/pages/template/Page";
+import { DataTable } from "@/components/ui/datagrid";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import Snackbar from "@/components/ui/snackbar";
-import { ScrollArea } from "@/components/ui/scroll-area"; // Importação do ScrollArea
+import Page from "@/pages/template/Page";
+import { Company, Suggestion } from "@/types/types";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
+import { PencilIcon } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ManageAll = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -26,7 +25,7 @@ const ManageAll = () => {
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const fetchCompanies = async () => {
+  const fetchCompanies = useCallback(async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/companies?isActive=${showActiveCompanies}`,
@@ -37,9 +36,9 @@ const ManageAll = () => {
       console.error("Error fetching companies:", error);
       setSnackbarMessage("Erro ao buscar empresas.");
     }
-  };
+  }, [showActiveCompanies]);
 
-  const fetchSuggestions = async () => {
+  const fetchSuggestions = useCallback(async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/suggestions?isActive=${showActiveSuggestions}`,
@@ -50,12 +49,17 @@ const ManageAll = () => {
       console.error("Error fetching suggestions:", error);
       setSnackbarMessage("Erro ao buscar sugestões.");
     }
-  };
+  }, [showActiveSuggestions]);
 
   useEffect(() => {
     fetchCompanies();
     fetchSuggestions();
-  }, [showActiveCompanies, showActiveSuggestions]);
+  }, [
+    showActiveCompanies,
+    showActiveSuggestions,
+    fetchCompanies,
+    fetchSuggestions,
+  ]);
 
   const toggleCompanyStatus = async (company: Company) => {
     try {
@@ -237,7 +241,7 @@ const ManageAll = () => {
           <h1 className="text-4xl font-bold text-primary">Gerenciamento</h1>
           <Button
             variant="default"
-            onClick={() => navigate("/create")}
+            onClick={() => navigate("/painel-de-sugestoes/create")}
             className="hover:bg-primary-dark rounded bg-primary text-white transition-colors duration-200"
           >
             Cadastrar
@@ -245,7 +249,6 @@ const ManageAll = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
-          {/* Sugestões */}
           <div className="flex flex-col lg:col-span-3">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-3xl font-semibold text-primary">Sugestões</h2>
@@ -268,7 +271,6 @@ const ManageAll = () => {
             </ScrollArea>
           </div>
 
-          {/* Empresas */}
           <div className="flex flex-col lg:col-span-2">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-3xl font-semibold text-primary">Empresas</h2>
@@ -292,7 +294,6 @@ const ManageAll = () => {
           </div>
         </div>
 
-        {/* Formulários de Edição */}
         {editingCompany && (
           <EditCompanyForm
             company={editingCompany}

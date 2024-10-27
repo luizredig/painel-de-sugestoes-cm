@@ -1,46 +1,19 @@
-import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-import { prismaClient } from "@/lib/prisma";
+
 import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
 
 type SuggestionDetailsProps = {
-  suggestionId: string;
+  suggestion: Suggestion & {
+    status: SuggestionStatus;
+    agents: SuggestionsAgent[];
+  };
   onClose: () => void;
 };
 
-type SuggestionWithAgentsAndStatus = Suggestion & {
-  agents: SuggestionsAgent[];
-  status: SuggestionStatus;
-};
-
-const SuggestionDetails = ({
-  suggestionId,
-  onClose,
-}: SuggestionDetailsProps) => {
-  const [suggestion, setSuggestion] =
-    useState<SuggestionWithAgentsAndStatus | null>(null);
-
-  useEffect(() => {
-    const fetchSuggestionDetails = async () => {
-      const fetchedSuggestion = await prismaClient.suggestion.findUnique({
-        where: { id: suggestionId },
-        include: {
-          agents: true,
-          status: true,
-        },
-      });
-
-      setSuggestion(fetchedSuggestion);
-    };
-
-    fetchSuggestionDetails();
-  }, [suggestionId]);
-
-  if (!suggestion) return null;
-
+const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <Card className="relative w-full max-w-2xl rounded-lg bg-white p-8 shadow-2xl">
@@ -64,7 +37,7 @@ const SuggestionDetails = ({
           <div>
             <h3 className="text-xl font-semibold text-gray-700">Status</h3>
             <Badge className="no-hover mt-2 p-2 text-sm">
-              {suggestion.status.name}
+              {suggestion.status?.name}
             </Badge>
           </div>
 

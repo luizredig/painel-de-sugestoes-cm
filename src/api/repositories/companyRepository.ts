@@ -28,6 +28,8 @@ export const getCompaniesWithSuggestions = async () => {
     include: {
       suggestions: {
         include: {
+          company: true,
+          status: true,
           agents: true,
         },
       },

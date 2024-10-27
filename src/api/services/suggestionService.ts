@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import * as suggestionRepository from "../repositories/suggestionRepository";
 import * as statusRepository from "../repositories/statusRepository";
+import { formatToSlug } from "../../helpers/slug";
 
 export const getAllSuggestions = async (isActive?: boolean) => {
   return await suggestionRepository.getAllSuggestions(isActive);
@@ -20,11 +21,17 @@ export const updateSuggestion = async (
 export const getOrCreateStatusByName = async (name: string) => {
   let status = await statusRepository.getStatusByName(name);
   if (!status) {
-    status = await statusRepository.createStatus({ name });
+    const slug = formatToSlug(name);
+    status = await statusRepository.createStatus({ name, slug });
   }
   return status;
 };
 
-export const createSuggestion = async (data: Prisma.SuggestionCreateInput) => {
+export const createSuggestion = async (data: {
+  title: string;
+  description?: string;
+  isActive?: boolean;
+  companyId: string;
+}) => {
   return await suggestionRepository.createSuggestion(data);
 };
