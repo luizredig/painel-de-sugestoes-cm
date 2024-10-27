@@ -1,12 +1,21 @@
 import { Separator } from "@/components/ui/separator";
 import { BuildingIcon } from "lucide-react";
 import SuggestionCard from "./SuggestionCard";
-import { Company, Suggestion } from "@prisma/client";
+import {
+  Company,
+  Suggestion,
+  SuggestionsAgent,
+  SuggestionStatus,
+} from "@prisma/client";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 type CompanySuggestionRowProps = {
   company: Company;
-  suggestions: Suggestion[];
+  suggestions: (Suggestion & {
+    company: Company;
+    status: SuggestionStatus;
+    agents: SuggestionsAgent[];
+  })[];
 };
 
 const CompanySuggestionRow = ({
@@ -29,7 +38,7 @@ const CompanySuggestionRow = ({
 
       <ScrollArea className="flex flex-col py-4">
         <div className="flex gap-10 px-5">
-          {suggestions.map((suggestion: Suggestion) => (
+          {suggestions.map((suggestion) => (
             <SuggestionCard key={suggestion.id} suggestion={suggestion} />
           ))}
         </div>

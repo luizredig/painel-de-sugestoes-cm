@@ -1,6 +1,11 @@
 import Search from "@/components/search/Search";
 import CompanySuggestionRow from "@/components/suggestion/CompanySuggestionRow";
-import { Company, Suggestion } from "@prisma/client";
+import {
+  Company,
+  Suggestion,
+  SuggestionStatus,
+  SuggestionsAgent,
+} from "@prisma/client";
 import { useEffect, useState } from "react";
 import Page from "../template/Page";
 import { Sparkles } from "lucide-react";
@@ -8,7 +13,13 @@ import Spinner from "@/components/loading/Spinner";
 
 const SuggestionPanel = () => {
   const [companies, setCompanies] = useState<
-    (Company & { suggestions: Suggestion[] })[]
+    (Company & {
+      suggestions: (Suggestion & {
+        company: Company;
+        status: SuggestionStatus;
+        agents: SuggestionsAgent[];
+      })[];
+    })[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
 
