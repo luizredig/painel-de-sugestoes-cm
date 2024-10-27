@@ -20,9 +20,9 @@ import { Skeleton } from "../ui/skeleton";
 
 type SuggestionCardProps = {
   suggestion: Suggestion & {
-    company: Company;
-    status: SuggestionStatus;
-    agents: SuggestionsAgent[];
+    company?: Company;
+    status?: SuggestionStatus;
+    agents?: SuggestionsAgent[];
   };
 };
 
