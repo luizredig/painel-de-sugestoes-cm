@@ -241,7 +241,7 @@ const ManageAll = () => {
           <h1 className="text-4xl font-bold text-primary">Gerenciamento</h1>
           <Button
             variant="default"
-            onClick={() => navigate("/create")}
+            onClick={() => navigate("/painel-de-sugestoes/create")}
             className="hover:bg-primary-dark rounded bg-primary text-white transition-colors duration-200"
           >
             Cadastrar
