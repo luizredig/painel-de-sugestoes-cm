@@ -20,9 +20,9 @@ import { Skeleton } from "../ui/skeleton";
 
 type SuggestionCardProps = {
   suggestion: Suggestion & {
-    company?: Company;
-    status?: SuggestionStatus;
-    agents?: SuggestionsAgent[];
+    company: Company;
+    status: SuggestionStatus;
+    agents: SuggestionsAgent[];
   };
 };
 
@@ -69,7 +69,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
   return (
     <>
       <Card
-        className="flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5"
+        className="flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5 hover:bg-muted"
         onClick={() => setIsModalOpen(true)}
       >
         <Badge className="p-1 hover:bg-primary"></Badge>
@@ -156,7 +156,7 @@ const SuggestionCard = ({ suggestion }: SuggestionCardProps) => {
 
       {isModalOpen && (
         <SuggestionDetails
-          suggestionId={suggestion.id}
+          suggestion={suggestion}
           onClose={() => setIsModalOpen(false)}
         />
       )}
