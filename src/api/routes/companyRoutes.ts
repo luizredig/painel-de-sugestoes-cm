@@ -9,7 +9,7 @@ router.get(
   "/companies/with-suggestions",
   companyController.getCompaniesWithSuggestions,
 );
-
 router.get("/companies/:id", companyController.getCompanyById);
+router.patch("/companies/:id", companyController.updateCompany);
 
 export default router;
