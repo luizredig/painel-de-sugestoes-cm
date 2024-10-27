@@ -45,15 +45,10 @@ export const createSuggestion = async (req: Request, res: Response) => {
   try {
     const data = req.body;
 
-    // Set default isActive to true
     data.isActive = data.isActive !== undefined ? data.isActive : true;
 
-    // Get or create 'Pendente' status
-    const pendingStatus =
-      await suggestionService.getOrCreateStatusByName("Pendente");
-    data.statusId = pendingStatus.id;
-
     const suggestion = await suggestionService.createSuggestion(data);
+
     res.status(201).json(suggestion);
   } catch (error) {
     res.status(500).json({ message: "Erro ao criar sugestão", error });
