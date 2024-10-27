@@ -7,8 +7,8 @@ export const createCompany = async (
   return await companyRepository.createCompany(data);
 };
 
-export const getAllCompanies = async () => {
-  return await companyRepository.getAllCompanies();
+export const getAllCompanies = async (isActive?: boolean) => {
+  return await companyRepository.getAllCompanies(isActive);
 };
 
 export const getCompaniesWithSuggestions = async () => {
@@ -17,4 +17,11 @@ export const getCompaniesWithSuggestions = async () => {
 
 export const getCompanyById = async (id: string) => {
   return await companyRepository.getCompanyById({ id });
+};
+
+export const updateCompany = async (
+  id: string,
+  data: Prisma.CompanyUpdateInput,
+) => {
+  return await companyRepository.updateCompany(id, data);
 };

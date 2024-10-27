@@ -9,8 +9,8 @@ import "./App.css";
 import { Layout } from "./components/layout/Layout";
 import { TooltipProvider } from "./components/ui/tooltip";
 import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel";
-import CreateSuggestion from "./pages/painel-de-sugestoes/create/CreateSuggestion";
-import ManageSuggestions from "./pages/painel-de-sugestoes/gerenciar/ManageSuggestions";
+import CreateSuggestionsAndCompanies from "./pages/painel-de-sugestoes/create/CreateSuggestionsAndCompanies"; // Página de criação
+import ManageAll from "./pages/painel-de-sugestoes/gerenciar/ManageAll"; // Página de Gerenciamento de Empresas e Sugestões
 
 function App() {
   return (
@@ -35,13 +35,11 @@ function App() {
               }
             />
 
-            <Route path="gerenciar" element={<ManageSuggestions />} />
+            {/* Página de Gerenciamento */}
+            <Route path="gerenciar" element={<ManageAll />} />
 
-            <Route path="create" element={<CreateSuggestion />} />
-
-            <Route path="edit/:id" element={<div>Editar Sugestão</div>} />
-
-            <Route path="show/:id" element={<div>Detalhes da Sugestão</div>} />
+            {/* Página para criar sugestões e empresas */}
+            <Route path="create" element={<CreateSuggestionsAndCompanies />} />
           </Route>
 
           <Route index element={<Navigate to="/painel-de-sugestoes" />} />
