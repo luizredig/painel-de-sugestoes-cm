@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import {
   BrowserRouter,
   Navigate,
@@ -34,7 +32,7 @@ function App() {
               <Outlet />
             </Layout>
           ) : (
-            <Navigate to="/login" />
+            <Navigate to="/inicio" />
           )
         }
       >
@@ -73,7 +71,7 @@ function App() {
         {/* Rota acessível apenas para guest */}
         {role === "guest" && (
           <Route
-            path="/create-suggestion-only"
+            path="/inicio"
             element={
               <ProtectedRoute>
                 <CreateSuggestionOnly />
@@ -87,11 +85,7 @@ function App() {
           path="*"
           element={
             <Navigate
-              to={
-                role === "admin"
-                  ? "/painel-de-sugestoes"
-                  : "/create-suggestion-only"
-              }
+              to={role === "admin" ? "/painel-de-sugestoes" : "/inicio"}
               replace
             />
           }
