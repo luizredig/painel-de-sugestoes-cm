@@ -1,11 +1,11 @@
+import { useAuth } from "@/components/Auth/AuthProvider";
+import { AppWindowIcon, LogOutIcon, UserIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import SidebarItem from "./SidebarItem";
-import { AppWindowIcon, CogIcon, ListIcon, LogOutIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { useAuth } from "@/components/Auth/AuthProvider";
 
 const Sidebar = () => {
-  const { logout } = useAuth();
+  const { logout, role } = useAuth();
 
   return (
     <Card className="h-100 flex min-w-72 flex-col border-none p-0">
@@ -14,25 +14,21 @@ const Sidebar = () => {
       </CardHeader>
 
       <CardContent className="flex flex-1 flex-col bg-secondary p-0">
+        {role === "admin" && (
+          <SidebarItem
+            type="button"
+            title="Administrador"
+            icon={<UserIcon className="text-primary" />}
+            path="/painel-de-sugestoes/gerenciar"
+          />
+        )}
+
         <SidebarItem
           type="button"
           title="Painel de sugestões"
           icon={<AppWindowIcon className="text-primary" />}
           path="/painel-de-sugestoes"
         />
-
-        <SidebarItem
-          type="accordion"
-          title="Sugestões"
-          icon={<ListIcon className="text-primary" />}
-        >
-          <SidebarItem
-            type="button"
-            title="Gerenciar (Administrador)"
-            icon={<CogIcon className="text-primary" size={20} />}
-            path="/painel-de-sugestoes/gerenciar"
-          />
-        </SidebarItem>
 
         <Button
           onClick={logout}
