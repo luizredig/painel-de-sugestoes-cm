@@ -8,6 +8,7 @@ import {
   SuggestionStatus,
 } from "@prisma/client";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { useAuth } from "../Auth/AuthProvider";
 
 type CompanySuggestionRowProps = {
   company: Company;
@@ -22,6 +23,8 @@ const CompanySuggestionRow = ({
   company,
   suggestions,
 }: CompanySuggestionRowProps) => {
+  const { role } = useAuth();
+
   return (
     <div className="flex flex-col py-5">
       <div className="flex w-fit flex-col gap-4 px-5">
@@ -39,7 +42,11 @@ const CompanySuggestionRow = ({
       <ScrollArea className="flex flex-col py-4">
         <div className="flex gap-10 px-5">
           {suggestions.map((suggestion) => (
-            <SuggestionCard key={suggestion.id} suggestion={suggestion} />
+            <SuggestionCard
+              key={suggestion.id}
+              variant={role === "admin" ? "adminView" : "guestView"}
+              suggestion={suggestion}
+            />
           ))}
         </div>
 

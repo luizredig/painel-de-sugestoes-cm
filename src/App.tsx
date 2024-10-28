@@ -70,14 +70,27 @@ function App() {
 
         {/* Rota acessível apenas para guest */}
         {role === "guest" && (
-          <Route
-            path="/inicio"
-            element={
-              <ProtectedRoute>
-                <CreateSuggestionOnly />
-              </ProtectedRoute>
-            }
-          />
+          <>
+            <Route
+              path="/inicio"
+              element={
+                <ProtectedRoute>
+                  <CreateSuggestionOnly />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/painel-de-sugestoes"
+              element={
+                <ProtectedRoute>
+                  <TooltipProvider>
+                    <SuggestionPanel />
+                  </TooltipProvider>
+                </ProtectedRoute>
+              }
+            />
+          </>
         )}
 
         {/* Redirecionar qualquer rota desconhecida */}
