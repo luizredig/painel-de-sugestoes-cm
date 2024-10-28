@@ -22,9 +22,9 @@ const Topbar = ({ title }: TopbarProps) => {
         <p className="text-sm font-semibold text-primary">{title}</p>
 
         <div className="flex gap-2">
-          {role === "guest" && (
-            <Button onClick={logout} variant={"outline"} size={"icon"}>
-              <TooltipProvider>
+          <TooltipProvider>
+            {role === "guest" && (
+              <Button onClick={logout} variant={"outline"} size={"icon"}>
                 <Tooltip>
                   <TooltipTrigger>
                     <UserIcon className="text-primary" />
@@ -34,13 +34,11 @@ const Topbar = ({ title }: TopbarProps) => {
                     <span>Admin</span>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            </Button>
-          )}
+              </Button>
+            )}
 
-          {role === "admin" && (
-            <Button onClick={logout} variant={"outline"} size={"icon"}>
-              <TooltipProvider>
+            {role === "admin" && (
+              <Button onClick={logout} variant={"outline"} size={"icon"}>
                 <Tooltip>
                   <TooltipTrigger>
                     <LogOutIcon className="text-primary" />
@@ -50,9 +48,9 @@ const Topbar = ({ title }: TopbarProps) => {
                     <span>Logout</span>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            </Button>
-          )}
+              </Button>
+            )}
+          </TooltipProvider>
         </div>
       </Card>
     </>
