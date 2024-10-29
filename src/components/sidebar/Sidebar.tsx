@@ -1,4 +1,4 @@
-import { useAuth } from "@/components/Auth/AuthProvider";
+import { useAuth } from "@/auth/AuthProvider";
 import { AppWindowIcon, PlusIcon, UserIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import SidebarItem from "./SidebarItem";

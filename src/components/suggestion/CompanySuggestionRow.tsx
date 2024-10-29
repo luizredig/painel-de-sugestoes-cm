@@ -8,7 +8,7 @@ import {
   SuggestionStatus,
 } from "@prisma/client";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { useAuth } from "../Auth/AuthProvider";
+import { useAuth } from "../../auth/AuthProvider";
 
 type CompanySuggestionRowProps = {
   company: Company;

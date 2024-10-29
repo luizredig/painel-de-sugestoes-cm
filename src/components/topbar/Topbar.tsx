@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { useAuth } from "../Auth/AuthProvider";
+import { useAuth } from "../../auth/AuthProvider";
 
 type TopbarProps = {
   title: string;

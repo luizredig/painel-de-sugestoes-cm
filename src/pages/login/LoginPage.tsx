@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "@/components/Auth/AuthProvider";
+import { useAuth } from "@/auth/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

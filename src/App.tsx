@@ -12,8 +12,8 @@ import SuggestionPanel from "./pages/painel-de-sugestoes/SuggestionPanel";
 import CreateSuggestionsAndCompanies from "./pages/painel-de-sugestoes/create/CreateSuggestionsAndCompanies";
 import ManageAll from "./pages/painel-de-sugestoes/gerenciar/ManageAll";
 import { LoginPage } from "./pages/login/LoginPage";
-import ProtectedRoute from "./components/Auth/ProtectedRoute";
-import { AuthProvider, useAuth } from "./components/Auth/AuthProvider";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import { AuthProvider, useAuth } from "./auth/AuthProvider";
 import CreateSuggestionOnly from "./pages/painel-de-sugestoes/create/CreateSuggestionClient";
 
 function App() {
