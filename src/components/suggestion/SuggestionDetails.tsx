@@ -4,6 +4,7 @@ import { XIcon } from "lucide-react";
 import { format } from "date-fns";
 
 import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
+import { Button } from "../ui/button";
 
 type SuggestionDetailsProps = {
   suggestion: Suggestion & {
@@ -17,12 +18,14 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <Card className="relative w-full max-w-2xl rounded-lg bg-white p-8 shadow-2xl">
-        <button
+        <Button
+          variant={"ghost"}
+          size={"icon"}
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
         >
           <XIcon size={24} />
-        </button>
+        </Button>
 
         <div className="flex flex-col gap-6">
           <h2 className="text-3xl font-bold text-gray-800">
@@ -36,7 +39,7 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
 
           <div>
             <h3 className="text-xl font-semibold text-gray-700">Status</h3>
-            <Badge className="no-hover mt-2 p-2 text-sm">
+            <Badge className="no-hover mt-2 p-2 text-sm hover:bg-primary">
               {suggestion.status?.name}
             </Badge>
           </div>
@@ -45,12 +48,22 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
             <h3 className="text-xl font-semibold text-gray-700">
               Responsáveis
             </h3>
+
             <div className="mt-2 flex flex-wrap gap-2">
-              {suggestion.agents.map((agent) => (
-                <Badge key={agent.id} className="no-hover p-2 text-sm">
-                  {agent.name}
-                </Badge>
-              ))}
+              {suggestion.agents.length > 0 ? (
+                suggestion.agents.map((agent) => (
+                  <Badge
+                    key={agent.id}
+                    className="p-2 text-sm hover:bg-primary"
+                  >
+                    {agent.name}
+                  </Badge>
+                ))
+              ) : (
+                <>
+                  <span>Nenhum responsável atribuído.</span>
+                </>
+              )}
             </div>
           </div>
 

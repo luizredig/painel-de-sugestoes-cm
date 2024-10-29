@@ -1,11 +1,10 @@
+import { useAuth } from "@/components/Auth/AuthProvider";
+import { AppWindowIcon, PlusIcon, UserIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import SidebarItem from "./SidebarItem";
-import { AppWindowIcon, CogIcon, ListIcon, LogOutIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { useAuth } from "@/components/Auth/AuthProvider";
 
 const Sidebar = () => {
-  const { logout } = useAuth();
+  const { role } = useAuth();
 
   return (
     <Card className="h-100 flex min-w-72 flex-col border-none p-0">
@@ -14,33 +13,30 @@ const Sidebar = () => {
       </CardHeader>
 
       <CardContent className="flex flex-1 flex-col bg-secondary p-0">
+        {role === "guest" && (
+          <SidebarItem
+            type="button"
+            title="Cadastro de sugestão"
+            icon={<PlusIcon className="text-primary" />}
+            path="/inicio"
+          />
+        )}
+
+        {role === "admin" && (
+          <SidebarItem
+            type="button"
+            title="Administrador"
+            icon={<UserIcon className="text-primary" />}
+            path="/painel-de-sugestoes/gerenciar"
+          />
+        )}
+
         <SidebarItem
           type="button"
           title="Painel de sugestões"
           icon={<AppWindowIcon className="text-primary" />}
           path="/painel-de-sugestoes"
         />
-
-        <SidebarItem
-          type="accordion"
-          title="Sugestões"
-          icon={<ListIcon className="text-primary" />}
-        >
-          <SidebarItem
-            type="button"
-            title="Gerenciar (Administrador)"
-            icon={<CogIcon className="text-primary" size={20} />}
-            path="/painel-de-sugestoes/gerenciar"
-          />
-        </SidebarItem>
-
-        <Button
-          onClick={logout}
-          className="mt-auto flex w-full justify-start gap-3 rounded-none border-[0.5px] border-x-0 border-t-0 border-muted-foreground bg-secondary px-5 py-7"
-        >
-          <LogOutIcon className="text-primary" />
-          <span className="text-sm text-muted-foreground">Logout</span>
-        </Button>
       </CardContent>
     </Card>
   );

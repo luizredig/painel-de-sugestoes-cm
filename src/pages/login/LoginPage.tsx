@@ -1,5 +1,3 @@
-// src/pages/login/LoginPage.tsx
-
 import React, { useState } from "react";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Button } from "@/components/ui/button";
@@ -39,7 +37,7 @@ export const LoginPage: React.FC = () => {
   };
 
   const handleGuestLogin = () => {
-    if (loading) return; // Evita múltiplos cliques
+    if (loading) return;
     setLoading(true);
     setError(null);
 
@@ -53,13 +51,11 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="grid h-screen grid-cols-1 bg-muted md:grid-cols-2">
-      {/* Lado esquerdo - Título */}
       <div className="flex flex-col items-center justify-center bg-primary p-6 text-white">
         <h1 className="text-4xl font-bold">Carga Máquina</h1>
         <h2 className="mt-4 text-2xl">Painel de Sugestões</h2>
       </div>
 
-      {/* Lado direito - Formulário de login */}
       <div className="flex items-center justify-center p-6">
         <Card className="w-full max-w-md shadow-lg">
           <CardHeader>
@@ -70,6 +66,7 @@ export const LoginPage: React.FC = () => {
               Coloque as suas credenciais para prosseguir.
             </p>
           </CardHeader>
+
           <CardContent>
             {error && (
               <Alert variant="destructive" className="mb-4">
@@ -79,6 +76,7 @@ export const LoginPage: React.FC = () => {
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <Label htmlFor="username">Username</Label>
+
                 <Input
                   type="text"
                   id="username"
@@ -89,8 +87,10 @@ export const LoginPage: React.FC = () => {
                   required
                 />
               </div>
+
               <div>
                 <Label htmlFor="password">Password</Label>
+
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -101,31 +101,36 @@ export const LoginPage: React.FC = () => {
                     placeholder="Digite sua senha"
                     required
                   />
-                  <button
-                    type="button"
+                  <Button
+                    variant={"ghost"}
                     className="absolute right-3 top-1/2 -translate-y-1/2 transform text-sm text-muted-foreground"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? "Ocultar" : "Mostrar"}
-                  </button>
+                  </Button>
                 </div>
               </div>
-              <Button type="submit" className="w-full" disabled={loading}>
+
+              <Button
+                type="submit"
+                className="w-full hover:bg-primary"
+                disabled={loading}
+              >
                 {loading ? "Entrando..." : "Entrar"}
               </Button>
             </form>
 
-            {/* Texto Clicável "Entrar como Cliente" */}
             <div className="mt-4 text-center">
-              <button
+              <Button
+                variant={"ghost"}
                 onClick={handleGuestLogin}
-                className={`text-sm text-primary hover:underline focus:outline-none ${
+                className={`bg-transparent text-sm text-primary hover:bg-transparent hover:underline focus:outline-none ${
                   loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 }`}
                 disabled={loading}
               >
                 Entrar como Cliente
-              </button>
+              </Button>
             </div>
           </CardContent>
         </Card>

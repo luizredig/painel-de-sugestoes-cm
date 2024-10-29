@@ -14,7 +14,6 @@ interface Company {
   isActive: boolean;
 }
 
-// Formulário de criação de sugestão
 export const CreateSuggestionForm = ({
   companies,
 }: {
@@ -68,7 +67,7 @@ export const CreateSuggestionForm = ({
       {errorMessage && <div className="text-red-500">{errorMessage}</div>}
 
       <label className="text-sm font-semibold text-muted-foreground">
-        Título da Sugestão *
+        Título *
         <input
           type="text"
           value={title}
@@ -91,15 +90,16 @@ export const CreateSuggestionForm = ({
       </label>
 
       <label className="text-sm font-semibold text-muted-foreground">
-        Empresa Relacionada *
+        Empresa *
         <Select
           value={companyId}
           onValueChange={(value) => setCompanyId(value)}
           required
         >
           <SelectTrigger aria-label="Empresa">
-            <SelectValue placeholder="Selecione uma empresa" />
+            <SelectValue placeholder="Clique para selecionar sua empresa" />
           </SelectTrigger>
+
           <SelectContent>
             {companies.map((company) => (
               <SelectItem key={company.id} value={company.id}>
@@ -110,17 +110,13 @@ export const CreateSuggestionForm = ({
         </Select>
       </label>
 
-      <button
-        type="submit"
-        className="mt-4 rounded bg-primary p-3 text-white hover:bg-primary/80"
-      >
+      <button type="submit" className="mt-4 rounded bg-primary p-3 text-white">
         Enviar Sugestão
       </button>
     </form>
   );
 };
 
-// Formulário de criação de empresa
 export const CreateCompanyForm = ({
   onCompanyCreated,
 }: {

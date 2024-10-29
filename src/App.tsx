@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import {
   BrowserRouter,
   Navigate,
@@ -34,7 +32,7 @@ function App() {
               <Outlet />
             </Layout>
           ) : (
-            <Navigate to="/login" />
+            <Navigate to="/inicio" />
           )
         }
       >
@@ -72,14 +70,27 @@ function App() {
 
         {/* Rota acessível apenas para guest */}
         {role === "guest" && (
-          <Route
-            path="/create-suggestion-only"
-            element={
-              <ProtectedRoute>
-                <CreateSuggestionOnly />
-              </ProtectedRoute>
-            }
-          />
+          <>
+            <Route
+              path="/inicio"
+              element={
+                <ProtectedRoute>
+                  <CreateSuggestionOnly />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/painel-de-sugestoes"
+              element={
+                <ProtectedRoute>
+                  <TooltipProvider>
+                    <SuggestionPanel />
+                  </TooltipProvider>
+                </ProtectedRoute>
+              }
+            />
+          </>
         )}
 
         {/* Redirecionar qualquer rota desconhecida */}
@@ -87,11 +98,7 @@ function App() {
           path="*"
           element={
             <Navigate
-              to={
-                role === "admin"
-                  ? "/painel-de-sugestoes"
-                  : "/create-suggestion-only"
-              }
+              to={role === "admin" ? "/painel-de-sugestoes" : "/inicio"}
               replace
             />
           }

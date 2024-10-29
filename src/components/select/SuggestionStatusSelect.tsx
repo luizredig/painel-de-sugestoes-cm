@@ -8,7 +8,13 @@ import {
 } from "../ui/select";
 import { SuggestionStatus } from "@prisma/client";
 
-const SuggestionStatusSelect = () => {
+type SuggestionStatusSelectProps = {
+  disabled?: boolean;
+};
+
+const SuggestionStatusSelect = ({
+  disabled = false,
+}: SuggestionStatusSelectProps) => {
   const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
 
@@ -29,6 +35,7 @@ const SuggestionStatusSelect = () => {
   }, []);
 
   const handleValueChange = (value: string) => {
+    if (disabled) return;
     setSelectedValue(value);
   };
 
@@ -40,21 +47,26 @@ const SuggestionStatusSelect = () => {
         : "bg-background";
 
   return (
-    <Select onValueChange={handleValueChange}>
+    <Select onValueChange={handleValueChange} disabled={disabled}>
       <SelectTrigger
         aria-label="Status"
-        className={`${selectTriggerBgColor} h-fit w-24 px-2 py-1 text-[10px] focus:outline-none focus:ring-background`}
+        className={`${selectTriggerBgColor} h-fit w-24 px-2 py-1 text-[10px] focus:outline-none focus:ring-background ${
+          disabled ? "cursor-not-allowed opacity-50" : ""
+        }`}
+        disabled={disabled}
       >
         <SelectValue />
       </SelectTrigger>
 
-      <SelectContent>
-        {statuses.map((option) => (
-          <SelectItem key={option.id} value={option.name}>
-            {option.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
+      {!disabled && (
+        <SelectContent>
+          {statuses.map((option) => (
+            <SelectItem key={option.id} value={option.name}>
+              {option.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      )}
     </Select>
   );
 };
