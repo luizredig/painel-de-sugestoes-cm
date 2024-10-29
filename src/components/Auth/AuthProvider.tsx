@@ -1,5 +1,3 @@
-// src/components/Auth/AuthProvider.tsx
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +16,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string>("");
 
   useEffect(() => {
-    // Verifica o estado de autenticação no carregamento
     const auth = localStorage.getItem("auth") === "true";
     const storedRole = localStorage.getItem("role") || "";
     setIsAuthenticated(auth);
@@ -26,7 +23,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = (username: string, password?: string) => {
-    // Verifica se as credenciais batem com o que foi definido no .env
     if (
       username === import.meta.env.VITE_USER1_LOGIN &&
       password === import.meta.env.VITE_USER1_PASSWORD
@@ -38,12 +34,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       navigate("/painel-de-sugestoes/gerenciar");
       return true;
     } else if (username === "guest") {
-      // Caso seja cliente/guest
       setIsAuthenticated(true);
       setRole("guest");
       localStorage.setItem("auth", "true");
       localStorage.setItem("role", "guest");
-      navigate("/create-suggestion-only");
+      navigate("/inicio");
       return true;
     } else {
       return false;
