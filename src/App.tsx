@@ -40,16 +40,6 @@ function App() {
         {role === "admin" && (
           <>
             <Route
-              path="/painel-de-sugestoes"
-              element={
-                <ProtectedRoute>
-                  <TooltipProvider>
-                    <SuggestionPanel />
-                  </TooltipProvider>
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/painel-de-sugestoes/gerenciar"
               element={
                 <ProtectedRoute>
@@ -68,41 +58,28 @@ function App() {
           </>
         )}
 
-        {/* Rota acessível apenas para guest */}
-        {role === "guest" && (
-          <>
-            <Route
-              path="/inicio"
-              element={
-                <ProtectedRoute>
-                  <CreateSuggestionOnly />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/painel-de-sugestoes"
-              element={
-                <ProtectedRoute>
-                  <TooltipProvider>
-                    <SuggestionPanel />
-                  </TooltipProvider>
-                </ProtectedRoute>
-              }
-            />
-          </>
-        )}
-
-        {/* Redirecionar qualquer rota desconhecida */}
         <Route
-          path="*"
+          path="/inicio"
           element={
-            <Navigate
-              to={role === "admin" ? "/painel-de-sugestoes" : "/inicio"}
-              replace
-            />
+            <ProtectedRoute>
+              <CreateSuggestionOnly />
+            </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/painel-de-sugestoes"
+          element={
+            <ProtectedRoute>
+              <TooltipProvider>
+                <SuggestionPanel />
+              </TooltipProvider>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Redirecionar qualquer rota desconhecida */}
+        <Route path="*" element={<Navigate to={"/inicio"} replace />} />
       </Route>
     </Routes>
   );
