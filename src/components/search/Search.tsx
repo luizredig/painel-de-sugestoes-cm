@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -30,13 +30,20 @@ const FormSchema = z.object({
   search: z.string().optional(),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
-  company: z
-    .enum(["empty", "ravibras", "automatech", "newblow", "unipoli"])
-    .optional(),
-  status: z.enum(["empty", "novo", "emAndamento", "concluido"]).optional(),
+  company: z.string().optional(),
+  status: z.string().optional(),
 });
 
-const Search = () => {
+const Search = ({
+  onSearch,
+  onClearFilters,
+}: {
+  onSearch: any;
+  onClearFilters: any;
+}) => {
+  const [companies, setCompanies] = useState([]);
+  const [statuses, setStatuses] = useState([]);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,15 +52,42 @@ const Search = () => {
     },
   });
 
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/companies");
+        const data = await response.json();
+        setCompanies(data);
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+      }
+    };
+
+    const fetchStatuses = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/suggestion-status",
+        );
+        const data = await response.json();
+        setStatuses(data);
+      } catch (error) {
+        console.error("Error fetching statuses:", error);
+      }
+    };
+
+    fetchCompanies();
+    fetchStatuses();
+  }, []);
+
   const handleReset = () => {
     form.reset();
-
     form.setValue("company", "empty");
     form.setValue("status", "empty");
+    onClearFilters();
   };
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  const onSubmit = (data: any) => {
+    onSearch(data);
   };
 
   return (
@@ -62,7 +96,6 @@ const Search = () => {
         <Card className="flex flex-col gap-4 overflow-hidden p-5">
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-primary">Filtro de busca</h2>
-
             <Separator />
           </div>
 
@@ -73,7 +106,6 @@ const Search = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel>Data de Início</FormLabel>
-
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -92,7 +124,6 @@ const Search = () => {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
@@ -104,7 +135,6 @@ const Search = () => {
                       />
                     </PopoverContent>
                   </Popover>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -116,7 +146,6 @@ const Search = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel>Data de Fim</FormLabel>
-
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -135,7 +164,6 @@ const Search = () => {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
@@ -147,7 +175,6 @@ const Search = () => {
                       />
                     </PopoverContent>
                   </Popover>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -159,7 +186,6 @@ const Search = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel>Empresa</FormLabel>
-
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
@@ -169,16 +195,15 @@ const Search = () => {
                         />
                       </SelectTrigger>
                     </FormControl>
-
                     <SelectContent>
-                      <SelectItem value="empty">Nenhuma</SelectItem>{" "}
-                      <SelectItem value="ravibras">Ravibras</SelectItem>
-                      <SelectItem value="automatech">Automatech</SelectItem>
-                      <SelectItem value="newblow">Newblow</SelectItem>
-                      <SelectItem value="unipoli">Unipoli</SelectItem>
+                      <SelectItem value="empty">Nenhuma</SelectItem>
+                      {companies.map((company: any) => (
+                        <SelectItem key={company.id} value={company.id}>
+                          {company.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -190,7 +215,6 @@ const Search = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel>Status</FormLabel>
-
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="flex w-full">
@@ -200,15 +224,15 @@ const Search = () => {
                         />
                       </SelectTrigger>
                     </FormControl>
-
                     <SelectContent>
-                      <SelectItem value="empty">Nenhum</SelectItem>{" "}
-                      <SelectItem value="novo">Novo</SelectItem>
-                      <SelectItem value="emAndamento">Em andamento</SelectItem>
-                      <SelectItem value="concluido">Concluído</SelectItem>
+                      <SelectItem value="empty">Nenhum</SelectItem>
+                      {statuses.map((status: any) => (
+                        <SelectItem key={status.id} value={status.slug}>
+                          {status.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -219,7 +243,6 @@ const Search = () => {
             <Button variant="outline" type="button" onClick={handleReset}>
               Limpar Filtros
             </Button>
-
             <Button type="submit" className="hover:bg-primary">
               Buscar
             </Button>
