@@ -24,31 +24,29 @@ const Topbar = ({ title }: TopbarProps) => {
         <div className="flex gap-2">
           <TooltipProvider>
             {role === "guest" && (
-              <Button onClick={logout} variant={"outline"} size={"icon"}>
-                <Tooltip>
-                  <TooltipTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={logout} variant={"outline"} size={"icon"}>
                     <UserIcon className="text-primary" />
-                  </TooltipTrigger>
-
-                  <TooltipContent>
-                    <span>Admin</span>
-                  </TooltipContent>
-                </Tooltip>
-              </Button>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Admin</span>
+                </TooltipContent>
+              </Tooltip>
             )}
 
             {role === "admin" && (
-              <Button onClick={logout} variant={"outline"} size={"icon"}>
-                <Tooltip>
-                  <TooltipTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={logout} variant={"outline"} size={"icon"}>
                     <LogOutIcon className="text-primary" />
-                  </TooltipTrigger>
-
-                  <TooltipContent>
-                    <span>Logout</span>
-                  </TooltipContent>
-                </Tooltip>
-              </Button>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Logout</span>
+                </TooltipContent>
+              </Tooltip>
             )}
           </TooltipProvider>
         </div>
