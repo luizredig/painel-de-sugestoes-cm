@@ -11,6 +11,7 @@ import SuggestionDetails from "./SuggestionDetails";
 import AgentMultiSelect from "../select/AgentMultiSelect";
 import SuggestionStatusSelect from "@/components/select/SuggestionStatusSelect";
 import { Skeleton } from "../ui/skeleton";
+import { getStatusColorClasses } from "../../helpers/statusColorClasses";
 import {
   Company,
   Suggestion,
@@ -33,6 +34,11 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [agents, setAgents] = useState<SuggestionsAgent[]>([]);
   const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
+  const [currentStatusSlug, setCurrentStatusSlug] = useState(
+    suggestion.status.slug,
+  );
+
+  const statusClasses = getStatusColorClasses(currentStatusSlug);
 
   useEffect(() => {
     const fetchCompanyAndData = async () => {
@@ -80,6 +86,8 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
       if (!response.ok) {
         throw new Error("Failed to update status");
       }
+
+      setCurrentStatusSlug(newStatusSlug);
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -124,10 +132,10 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
   return (
     <>
       <Card
-        className="flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5 hover:bg-muted"
+        className={`flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5 hover:bg-muted ${statusClasses.border}`}
         onClick={() => setIsModalOpen(true)}
       >
-        <Badge className="p-1 hover:bg-primary"></Badge>
+        <Badge className={`p-1 ${statusClasses.badge}`} />
 
         <div className="flex h-full w-full flex-col justify-between overflow-hidden py-4 pr-2">
           <div className="flex">
@@ -170,7 +178,7 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
               <div className="flex" onClick={(e) => e.stopPropagation()}>
                 <SuggestionStatusSelect
                   disabled={variant === "guestView"}
-                  currentStatus={suggestion.status.slug}
+                  currentStatus={currentStatusSlug}
                   onChange={handleStatusChange}
                 />
               </div>
@@ -217,7 +225,10 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
 
       {isModalOpen && (
         <SuggestionDetails
-          suggestion={suggestion}
+          suggestion={{
+            ...suggestion,
+            status: { ...suggestion.status, slug: currentStatusSlug },
+          }}
           onClose={() => setIsModalOpen(false)}
         />
       )}

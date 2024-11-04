@@ -1,10 +1,11 @@
+import React from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-
 import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
 import { Button } from "../ui/button";
+import { getStatusColorClasses } from "../../helpers/statusColorClasses";
 
 type SuggestionDetailsProps = {
   suggestion: Suggestion & {
@@ -15,9 +16,13 @@ type SuggestionDetailsProps = {
 };
 
 const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
+  const statusClasses = getStatusColorClasses(suggestion.status.slug);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <Card className="relative w-full max-w-2xl rounded-lg bg-white p-8 shadow-2xl">
+      <Card
+        className={`relative w-full max-w-2xl rounded-lg bg-white p-8 shadow-2xl ${statusClasses.border}`}
+      >
         <Button
           variant={"ghost"}
           size={"icon"}
@@ -39,7 +44,7 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
 
           <div>
             <h3 className="text-xl font-semibold text-gray-700">Status</h3>
-            <Badge className="no-hover mt-2 p-2 text-sm hover:bg-primary">
+            <Badge className={`mt-2 p-2 text-sm ${statusClasses.badge}`}>
               {suggestion.status?.name}
             </Badge>
           </div>
@@ -48,21 +53,18 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
             <h3 className="text-xl font-semibold text-gray-700">
               Responsáveis
             </h3>
-
             <div className="mt-2 flex flex-wrap gap-2">
               {suggestion.agents.length > 0 ? (
                 suggestion.agents.map((agent) => (
                   <Badge
                     key={agent.id}
-                    className="p-2 text-sm hover:bg-primary"
+                    className={`p-2 text-sm ${statusClasses.badge}`}
                   >
                     {agent.name}
                   </Badge>
                 ))
               ) : (
-                <>
-                  <span>Nenhum responsável atribuído.</span>
-                </>
+                <span>Nenhum responsável atribuído.</span>
               )}
             </div>
           </div>
