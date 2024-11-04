@@ -10,11 +10,18 @@ import { CheckIcon } from "lucide-react";
 
 type AgentMultiSelectProps = {
   disabled?: boolean;
+  selectedAgentIds?: string[];
+  onChange?: (selectedIds: string[]) => void;
 };
 
-const AgentMultiSelect = ({ disabled = false }: AgentMultiSelectProps) => {
+const AgentMultiSelect = ({
+  disabled = false,
+  selectedAgentIds = [],
+  onChange,
+}: AgentMultiSelectProps) => {
   const [agents, setAgents] = useState<SuggestionsAgent[]>([]);
-  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
+  const [selectedAgents, setSelectedAgents] =
+    useState<string[]>(selectedAgentIds);
 
   useEffect(() => {
     const fetchAgents = async () => {
@@ -23,31 +30,42 @@ const AgentMultiSelect = ({ disabled = false }: AgentMultiSelectProps) => {
         const data = await response.json();
         setAgents(data);
       } catch (error) {
-        console.error("Erro ao buscar agentes:", error);
+        console.error("Error fetching agents:", error);
       }
     };
 
     fetchAgents();
   }, []);
 
-  const handleAgentChange = (agentName: string) => {
+  useEffect(() => {
+    setSelectedAgents(selectedAgentIds);
+  }, [selectedAgentIds]);
+
+  const handleAgentChange = (agentId: string) => {
     if (disabled) return;
 
-    setSelectedAgents((prev) =>
-      prev.includes(agentName)
-        ? prev.filter((name) => name !== agentName)
-        : [...prev, agentName],
-    );
+    const updatedSelection = selectedAgents.includes(agentId)
+      ? selectedAgents.filter((id) => id !== agentId)
+      : [...selectedAgents, agentId];
+
+    setSelectedAgents(updatedSelection);
+
+    if (onChange) {
+      onChange(updatedSelection);
+    }
   };
 
-  const getFirstNames = (fullNames: string[]) => {
-    return fullNames.map((name) => name.split(" ")[0]).join(", ");
+  const getFirstNames = (agentIds: string[]) => {
+    const agentNames = agents
+      .filter((agent) => agentIds.includes(agent.id))
+      .map((agent) => agent.name.split(" ")[0]);
+    return agentNames.join(", ");
   };
 
   return (
     <Select>
       <SelectTrigger
-        className={`h-fit w-full px-2 py-1 text-[10px] outline-none focus:ring-background focus-visible:ring-0 ${
+        className={`h-fit w-full px-2 py-1 text-[10px] outline-none focus:ring-background ${
           disabled ? "cursor-not-allowed opacity-50" : ""
         }`}
         disabled={disabled}
@@ -65,13 +83,13 @@ const AgentMultiSelect = ({ disabled = false }: AgentMultiSelectProps) => {
             {agents.map((agent) => (
               <div
                 key={agent.id}
-                onClick={() => handleAgentChange(agent.name)}
+                onClick={() => handleAgentChange(agent.id)}
                 className={`flex cursor-pointer items-center justify-between px-3 py-2 ${
-                  selectedAgents.includes(agent.name) ? "bg-green-100" : ""
+                  selectedAgents.includes(agent.id) ? "bg-green-100" : ""
                 }`}
               >
                 <span className="truncate">{agent.name}</span>
-                {selectedAgents.includes(agent.name) && (
+                {selectedAgents.includes(agent.id) && (
                   <CheckIcon className="text-green-600" />
                 )}
               </div>

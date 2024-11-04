@@ -17,6 +17,15 @@ export const getAllSuggestions = async (req: Request, res: Response) => {
   }
 };
 
+export const createSuggestion = async (req: Request, res: Response) => {
+  try {
+    const suggestion = await suggestionService.createSuggestion(req.body);
+    res.status(201).json(suggestion);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating suggestion", error });
+  }
+};
+
 export const deleteSuggestion = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -30,10 +39,9 @@ export const deleteSuggestion = async (req: Request, res: Response) => {
 export const updateSuggestion = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const suggestionData = req.body;
     const updatedSuggestion = await suggestionService.updateSuggestion(
       id,
-      suggestionData,
+      req.body,
     );
     res.status(200).json(updatedSuggestion);
   } catch (error) {
@@ -41,16 +49,34 @@ export const updateSuggestion = async (req: Request, res: Response) => {
   }
 };
 
-export const createSuggestion = async (req: Request, res: Response) => {
+export const updateSuggestionStatus = async (req: Request, res: Response) => {
   try {
-    const data = req.body;
-
-    data.isActive = data.isActive !== undefined ? data.isActive : true;
-
-    const suggestion = await suggestionService.createSuggestion(data);
-
-    res.status(201).json(suggestion);
+    const { id } = req.params;
+    const { statusSlug } = req.body;
+    const updatedSuggestion = await suggestionService.updateSuggestionStatus(
+      id,
+      statusSlug,
+    );
+    res.status(200).json(updatedSuggestion);
   } catch (error) {
-    res.status(500).json({ message: "Erro ao criar sugestão", error });
+    res
+      .status(500)
+      .json({ message: "Error updating suggestion status", error });
+  }
+};
+
+export const updateSuggestionAgents = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { agentIds } = req.body;
+    const updatedSuggestion = await suggestionService.updateSuggestionAgents(
+      id,
+      agentIds,
+    );
+    res.status(200).json(updatedSuggestion);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error updating suggestion agents", error });
   }
 };

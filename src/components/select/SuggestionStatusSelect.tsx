@@ -10,13 +10,17 @@ import { SuggestionStatus } from "@prisma/client";
 
 type SuggestionStatusSelectProps = {
   disabled?: boolean;
+  currentStatus?: string;
+  onChange?: (value: string) => void;
 };
 
 const SuggestionStatusSelect = ({
   disabled = false,
+  currentStatus = "",
+  onChange,
 }: SuggestionStatusSelectProps) => {
   const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>(currentStatus);
 
   useEffect(() => {
     const fetchStatuses = async () => {
@@ -25,7 +29,6 @@ const SuggestionStatusSelect = ({
           "http://localhost:3000/api/suggestion-status",
         );
         const fetchedStatuses = await statusesResponse.json();
-
         setStatuses(fetchedStatuses);
       } catch (error) {
         console.error("Error fetching suggestion statuses:", error);
@@ -34,9 +37,15 @@ const SuggestionStatusSelect = ({
     fetchStatuses();
   }, []);
 
+  useEffect(() => {
+    setSelectedValue(currentStatus); // Sincroniza o valor selecionado com `currentStatus`
+  }, [currentStatus]);
+
   const handleValueChange = (value: string) => {
-    if (disabled) return;
-    setSelectedValue(value);
+    if (!disabled) {
+      setSelectedValue(value);
+      if (onChange) onChange(value); // Chama o callback para atualizar o pai
+    }
   };
 
   const selectTriggerBgColor =
@@ -55,14 +64,14 @@ const SuggestionStatusSelect = ({
         }`}
         disabled={disabled}
       >
-        <SelectValue />
+        <SelectValue placeholder={selectedValue || "Select Status"} />
       </SelectTrigger>
 
       {!disabled && (
         <SelectContent>
-          {statuses.map((option) => (
-            <SelectItem key={option.id} value={option.name}>
-              {option.name}
+          {statuses.map((status) => (
+            <SelectItem key={status.id} value={status.slug}>
+              {status.name}
             </SelectItem>
           ))}
         </SelectContent>

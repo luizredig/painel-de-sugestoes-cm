@@ -12,6 +12,12 @@ export const getStatusByName = async (name: string) => {
   });
 };
 
+export const getStatusBySlug = async (slug: string) => {
+  return prisma.suggestionStatus.findFirst({
+    where: { slug },
+  });
+};
+
 export const createStatus = async (
   data: Prisma.SuggestionStatusCreateInput,
 ) => {
