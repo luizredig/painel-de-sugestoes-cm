@@ -32,8 +32,10 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [companyName, setCompanyName] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedAgentIds, setSelectedAgentIds] = useState<string[]>(
+    suggestion.agents.map((agent) => agent.id),
+  );
   const [agents, setAgents] = useState<SuggestionsAgent[]>([]);
-  const [statuses, setStatuses] = useState<SuggestionStatus[]>([]);
   const [currentStatusSlug, setCurrentStatusSlug] = useState(
     suggestion.status.slug,
   );
@@ -43,24 +45,16 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
   useEffect(() => {
     const fetchCompanyAndData = async () => {
       try {
-        const [companyResponse, agentsResponse, statusesResponse] =
-          await Promise.all([
-            fetch(
-              `http://localhost:3000/api/companies/${suggestion.companyId}`,
-            ),
-            fetch("http://localhost:3000/api/agents"),
-            fetch("http://localhost:3000/api/suggestion-status"),
-          ]);
+        const [companyResponse, agentsResponse] = await Promise.all([
+          fetch(`http://localhost:3000/api/companies/${suggestion.companyId}`),
+          fetch("http://localhost:3000/api/agents"),
+        ]);
 
         const { name } = await companyResponse.json();
         setCompanyName(name);
 
         const agentsData = await agentsResponse.json();
         setAgents(agentsData);
-
-        const statusesData = await statusesResponse.json();
-        setStatuses(statusesData);
-
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -93,7 +87,7 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
     }
   };
 
-  const handleAgentsChange = async (selectedAgentIds: string[]) => {
+  const handleAgentsChange = async (selectedIds: string[]) => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/suggestions/${suggestion.id}/agents`,
@@ -102,13 +96,15 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ agentIds: selectedAgentIds }),
+          body: JSON.stringify({ agentIds: selectedIds }),
         },
       );
 
       if (!response.ok) {
         throw new Error("Failed to update agents");
       }
+
+      setSelectedAgentIds(selectedIds);
     } catch (error) {
       console.error("Error updating agents:", error);
     }
@@ -214,7 +210,7 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
 
                 <AgentMultiSelect
                   disabled={variant === "guestView"}
-                  selectedAgentIds={suggestion.agents.map((agent) => agent.id)}
+                  selectedAgentIds={selectedAgentIds}
                   onChange={handleAgentsChange}
                 />
               </div>
@@ -228,8 +224,13 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
           suggestion={{
             ...suggestion,
             status: { ...suggestion.status, slug: currentStatusSlug },
+            agents: agents.filter((agent) =>
+              selectedAgentIds.includes(agent.id),
+            ),
           }}
           onClose={() => setIsModalOpen(false)}
+          selectedAgentIds={selectedAgentIds}
+          onAgentChange={handleAgentsChange}
         />
       )}
     </>

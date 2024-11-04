@@ -3,8 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
+import { SuggestionsAgent, SuggestionStatus, Suggestion } from "@prisma/client";
 import { Button } from "../ui/button";
+import AgentMultiSelect from "../select/AgentMultiSelect";
 import { getStatusColorClasses } from "../../helpers/statusColorClasses";
 
 type SuggestionDetailsProps = {
@@ -12,10 +13,17 @@ type SuggestionDetailsProps = {
     status: SuggestionStatus;
     agents: SuggestionsAgent[];
   };
+  selectedAgentIds: string[];
+  onAgentChange: (selectedIds: string[]) => void;
   onClose: () => void;
 };
 
-const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
+const SuggestionDetails = ({
+  suggestion,
+  selectedAgentIds,
+  onAgentChange,
+  onClose,
+}: SuggestionDetailsProps) => {
   const statusClasses = getStatusColorClasses(suggestion.status.slug);
 
   return (
@@ -49,24 +57,14 @@ const SuggestionDetails = ({ suggestion, onClose }: SuggestionDetailsProps) => {
             </Badge>
           </div>
 
-          <div>
+          <div className="max-w-[25%]">
             <h3 className="text-xl font-semibold text-gray-700">
               Responsáveis
             </h3>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {suggestion.agents.length > 0 ? (
-                suggestion.agents.map((agent) => (
-                  <Badge
-                    key={agent.id}
-                    className={`p-2 text-sm ${statusClasses.badge}`}
-                  >
-                    {agent.name}
-                  </Badge>
-                ))
-              ) : (
-                <span>Nenhum responsável atribuído.</span>
-              )}
-            </div>
+            <AgentMultiSelect
+              selectedAgentIds={selectedAgentIds}
+              onChange={onAgentChange}
+            />
           </div>
 
           <div>
