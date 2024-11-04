@@ -131,7 +131,9 @@ const SuggestionCard = ({ suggestion, variant }: SuggestionCardProps) => {
         className={`flex h-52 w-96 cursor-pointer gap-3 p-2 pr-5 hover:bg-muted ${statusClasses.border}`}
         onClick={() => setIsModalOpen(true)}
       >
-        <Badge className={`p-1 ${statusClasses.badge}`} />
+        <Badge
+          className={`p-1 ${statusClasses.badge} hover:${statusClasses.badge}`}
+        />
 
         <div className="flex h-full w-full flex-col justify-between overflow-hidden py-4 pr-2">
           <div className="flex">

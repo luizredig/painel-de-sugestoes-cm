@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { XIcon } from "lucide-react";
 import { format } from "date-fns";
-import { SuggestionsAgent, SuggestionStatus, Suggestion } from "@prisma/client";
+import { Suggestion, SuggestionsAgent, SuggestionStatus } from "@prisma/client";
 import { Button } from "../ui/button";
 import AgentMultiSelect from "../select/AgentMultiSelect";
 import { getStatusColorClasses } from "../../helpers/statusColorClasses";
@@ -52,19 +52,31 @@ const SuggestionDetails = ({
 
           <div>
             <h3 className="text-xl font-semibold text-gray-700">Status</h3>
-            <Badge className={`mt-2 p-2 text-sm ${statusClasses.badge}`}>
+            <Badge
+              className={`mt-2 p-2 text-sm ${statusClasses.badge} hover:${statusClasses.badge}`}
+            >
               {suggestion.status?.name}
             </Badge>
           </div>
 
-          <div className="max-w-[25%]">
+          <div>
             <h3 className="text-xl font-semibold text-gray-700">
               Responsáveis
             </h3>
-            <AgentMultiSelect
-              selectedAgentIds={selectedAgentIds}
-              onChange={onAgentChange}
-            />
+            <div className="mt-2 flex flex-wrap gap-2">
+              {suggestion.agents.length > 0 ? (
+                suggestion.agents.map((agent) => (
+                  <Badge
+                    key={agent.id}
+                    className={`p-2 text-sm ${statusClasses.badge} hover:${statusClasses.badge}`}
+                  >
+                    {agent.name}
+                  </Badge>
+                ))
+              ) : (
+                <span>Nenhum responsável atribuído.</span>
+              )}
+            </div>
           </div>
 
           <div>
